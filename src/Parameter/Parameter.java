@@ -15,6 +15,10 @@ public class Parameter {
     public int link_resource_max =300;
     public int link_cost_min = 5;
     public int link_cost_max = 20;
+    /**NWSグラフ*/
+    public double p = 0.2;
+    public int k = 2;
+    /**SFC関係*/
     /**VNF関係*/
     public int VNF_num =10;
     public int VNF_resource_min = 5;

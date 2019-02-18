@@ -26,7 +26,6 @@ public class Lattice_GraphMaker {
             graph.addEdge(new MyEdge(num_edge,capacity,cost,new HashMap<Integer,Integer>(),capacity), vertexes.get(i), vertexes.get(i+1));
             num_edge++;
         }
-
         // 2行目以降を作る
         // ex) latticeSize = 3のとき、以下の辺を作る
         //      0   1   2
