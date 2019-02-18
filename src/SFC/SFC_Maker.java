@@ -1,0 +1,31 @@
+package SFC;
+
+import java.util.*;
+
+import Input.MyNode;
+import Parameter.Parameter;
+public class SFC_Maker {
+    public ArrayList<MySFC> SFCMaker(List<MyNode> List,ArrayList<MyVNF> VNF_List){
+        ArrayList<MySFC> S = new ArrayList<>();
+        Parameter par = new Parameter();
+        ArrayList<MyNode> t_list = new ArrayList<>();
+        Random rnd = new Random();
+        for(int b=0;b<List.size();b++) if(List.get(b).Node_ID=="t") t_list.add(List.get(b));
+        for(int a=0;a<par.SFC_num;a++){
+            Collections.shuffle(t_list);
+            /**始点・終点*/
+            MyNode source = List.get(0);
+            MyNode sink = List.get(1);
+            /**要求リンクリソース*/
+            int resource = rnd.nextInt(par.SFC_resource_max-par.SFC_resource_min)+par.SFC_resource_min;
+            /**VNF集合の決定*/
+            Collections.shuffle(VNF_List);
+            ArrayList<MyVNF> VNF = new ArrayList<>();
+            for(int b=0;b<par.SFC_VNFnum;b++) VNF.add(VNF_List.get(a));
+            /**SFCの決定*/
+            MySFC s = new MySFC(a,VNF,0,0,resource,source,sink);
+            S.add(s);
+        }
+        return S;
+    }
+}
