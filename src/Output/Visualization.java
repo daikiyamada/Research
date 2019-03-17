@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Visualization {
-    public static void Layout_Graph(Graph<MyNode, MyEdge> graph, String s) {
+    public static void Layout_Graph(Graph<MyNode, MyEdge> graph) {
         Layout<MyNode, MyEdge> layout = new CircleLayout<MyNode, MyEdge>(graph);
         layout.setSize(new Dimension(800, 800));
         BufferedImage image = new BufferedImage(800,800,BufferedImage.TYPE_INT_RGB);
@@ -29,7 +29,7 @@ public class Visualization {
         Date now = new Date();
         DateFormat dfYMD = new SimpleDateFormat("YYYYMMDD");
         DateFormat dfHMS = new SimpleDateFormat("hhmmss");
-        JFrame frame = new JFrame("Graph View: Manual Layout"+s+dfYMD.format(now)+"_"+dfHMS.format(now));
+        JFrame frame = new JFrame("Graph View: Manual Layout"+dfYMD.format(now)+"_"+dfHMS.format(now));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(panel);
         frame.pack();

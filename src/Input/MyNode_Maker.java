@@ -18,7 +18,7 @@ public class MyNode_Maker {
         for(int a=0;a<par.node_num;a++) num_list.add(a);
         for(int a=0;a<par.terminalnode;a++){
             Collections.shuffle(num_list);
-            MyNode t = new MyNode("t",num_list.get(0),0,0,new HashMap<Integer,Integer>(),0);
+            MyNode t = new MyNode("t",num_list.get(0),-1,0,new HashMap<Integer,Integer>(),0);
             Graph.addVertex(t);
             num_list.remove(0);
         }
