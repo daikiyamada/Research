@@ -28,7 +28,7 @@ public class SFC_Maker {
                 }
             });
             /**SFCの決定*/
-            MySFC s = new MySFC(a,VNF,0,0,resource,source,sink);
+            MySFC s = new MySFC(a,VNF,resource,source,sink);
             S.add(s);
         }
         return S;

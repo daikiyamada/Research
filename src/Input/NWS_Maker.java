@@ -20,7 +20,7 @@ public class NWS_Maker {
         for(int a=0;a<numnode;a++){
             int cost = rnd.nextInt(par.link_cost_max-par.link_cost_min)+par.link_cost_min;
             int capacity = rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min;
-            MyEdge e = new MyEdge(edge_num,capacity,cost,new HashMap<Integer,Integer>(),capacity);
+            MyEdge e = new MyEdge(edge_num,capacity,cost);
             edge_num++;
             if(a==numnode-1)Physical_Network.addEdge(e,Node.get(0),Node.get(numnode-1));
             else Physical_Network.addEdge(e,Node.get(a),Node.get(a+1));
@@ -30,7 +30,7 @@ public class NWS_Maker {
             int node_k = a+par.k;
             int cost = rnd.nextInt(par.link_cost_max-par.link_cost_min)+par.link_cost_min;
             int capacity = rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min;
-            MyEdge e = new MyEdge(edge_num,capacity,cost,new HashMap<Integer,Integer>(),capacity);
+            MyEdge e = new MyEdge(edge_num,capacity,cost);
             edge_num++;
             if(node_k<numnode){
                 Physical_Network.addEdge(e,Node.get(a),Node.get(a+par.k));
@@ -48,7 +48,7 @@ public class NWS_Maker {
             Pair<MyNode> n = Physical_Network.getEndpoints(Edge_List.get(a));
             int cost = rnd.nextInt(par.link_cost_max-par.link_cost_min)+par.link_cost_min;
             int capacity = rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min;
-            MyEdge e = new MyEdge(edge_num,capacity,cost,new HashMap<Integer,Integer>(),capacity);
+            MyEdge e = new MyEdge(edge_num,capacity,cost);
             edge_num++;
             int node;
             for(;;) {

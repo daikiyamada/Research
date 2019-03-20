@@ -18,7 +18,7 @@ public class ConnectedERGraph_Maker {
                 if(Math.random() <= p) {
                     int cost = rnd.nextInt(par.link_cost_max-par.link_cost_min)+par.link_cost_min;
                     int capacity = rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min;
-                    graph.addEdge(new MyEdge(num_edge,capacity,cost,new HashMap<Integer,Integer>(),capacity), vertexes.get(i), vertexes.get(i+1));
+                    graph.addEdge(new MyEdge(num_edge,capacity,cost), vertexes.get(i), vertexes.get(i+1));
                     num_edge++;
                 }
             }
@@ -55,7 +55,7 @@ public class ConnectedERGraph_Maker {
                         MyNode unvisitedV = v;
                         int cost = rnd.nextInt(par.link_cost_max - par.link_cost_min) + par.link_cost_min;
                         int capacity = rnd.nextInt(par.link_resource_max - par.link_resource_min) + par.link_resource_min;
-                        graph.addEdge(new MyEdge(num_edge, capacity, cost, new HashMap<Integer, Integer>(), capacity), visitedVertexes.get(rnd.nextInt(visitedVertexes.size())), unvisitedV);
+                        graph.addEdge(new MyEdge(num_edge, capacity, cost), visitedVertexes.get(rnd.nextInt(visitedVertexes.size())), unvisitedV);
                         num_edge++;
                         break;
                     }

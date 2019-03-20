@@ -16,7 +16,7 @@ import edu.uci.ics.jung.graph.event.GraphEvent;
 
 public class Result {
     /**結果の出力や分析のためのクラス*/
-    public void write(ArrayList<ArrayList<Integer>>OPT,double time,double error){
+    public void write(ArrayList<ArrayList<Integer>>OPT,double error,int i){
         Parameter par = new Parameter();
         String Path = new String();
         /**日付の選択*/
@@ -25,9 +25,8 @@ public class Result {
         Path = par.path+par.file_name+YMD.format(now)+".csv";
         File file = new File(Path);
         PrintWriter pw;
-        if(file.exists()) Path+="2";
         try {
-            FileWriter fw = new FileWriter(Path, false);
+            FileWriter fw = new FileWriter(Path, true);
             pw = new PrintWriter(Path);
         } catch(IOException ex){
             System.out.println("ファイルの出力に失敗しました");
@@ -35,6 +34,7 @@ public class Result {
         }
         /**結果をcsvファイルに出力*/
         /**パラメータの出力*/
+        pw.println(i+"回目");
         pw.println("パラメータ概要");
         pw.println("ノード数"+","+"サービスノード数"+","+"ターミナルノード数"+","+"SFC数"+","+"SFCのVNF数"+","+"障害想定数");
         pw.println(par.node_num+","+par.servicenode+","+par.terminalnode+","+par.SFC_num+","+par.SFC_VNFnum+","+par.failure_num);
@@ -50,30 +50,31 @@ public class Result {
         }
         average_node = average_node/OPT.size();
         average_link = average_link/OPT.size();
-        pw.println("平均目的関数値（ノード）"+","+"平均目的関数値（リンク）"+","+"実行時間"+"エラー数");
-        pw.println(average_node+","+average_link+","+time+","+error);
+        pw.println("平均目的関数値（ノード）"+","+"平均目的関数値（リンク）"+"エラー数");
+        pw.println(average_node+","+average_link+","+error);
+        pw.println();
         pw.close();
     }
 
-    public ArrayList<Integer> Total_Placement_Calculator(ArrayList<Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>>> Path_List,ArrayList<MySFC> S){
+    public int Total_Placement_Calculator(ArrayList<Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>>> Path_List,ArrayList<MySFC> S){
         ArrayList<Integer> error_num = new ArrayList<>();
-        for(int a=0;a<Path_List.size();a++){
-            Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> List = new HashMap<>(Path_List.get(a));
+        /**配置組み合わせ数算出*/
+        int total = 0;
+        for(Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> List:Path_List){
             int num =1;
-            for(int b=0;b<List.size();b++){
-                ArrayList<Graph<MyNode,MyEdge>> Graph_List = new ArrayList<>(List.get(S.get(b)));
+            for(int i=0;i<List.size();i++){
+                ArrayList<Graph<MyNode,MyEdge>> Graph_List = new ArrayList<>(List.get(S.get(i)));
                 for(Graph<MyNode,MyEdge> graph:Graph_List){
-                    Collection<MyNode> node_list = graph.getVertices();
-                    ArrayList<MyNode> node_list2 = new ArrayList<>(node_list);
-                    int service =1;
-                    for(int d=0;d<node_list2.size();d++) if(node_list2.get(d).Node_ID.equals("s")==true) service++;
-                    if(service>1)for(int d=0;d<S.get(b).VNF.size();d++)num*=(service-1);
-                    else if(service==1)num*=service;
+                    Collection<MyNode> node_list1 = graph.getVertices();
+                    ArrayList<MyNode> node_list2 = new ArrayList<>(node_list1);
+                    int service =0;
+                    for(MyNode n : node_list2) if(n.Node_ID.equals("s")==true) service++;
+                    if(service>0)for(int d=0;d<S.get(i).VNF.size();d++)num*=service;
                 }
             }
-            error_num.add(num);
+            total+=num;
         }
-        return error_num;
+        return total;
     }
     /**バグチェック出力関数*/
     public int Total_Placement_Calculator2(Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> Path_List,ArrayList<MySFC> S){

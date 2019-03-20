@@ -24,23 +24,26 @@ public class Main {
     static class output extends Result{}
     public static void main(String[] args){
         double start = System.currentTimeMillis();
+        /**１つの設定で行う回数*/
+        for(int i=0;i<1;i++){
         /**Graph 関係*/
         Graph<MyNode, MyEdge> graph = new UndirectedSparseGraph<>();
         /**ノード関連*/
         node n = new node();
         graph = n.MyNode_Maker();
         /**NWS*/
-    //    NWSGraph nws = new NWSGraph();
-    //    graph = nws.NWS_GraphMaker(graph);
+        //NWSGraph nws = new NWSGraph();
+        //    graph = nws.NWS_GraphMaker(graph);
         /**Lattice*/
         LatticeGraph lat = new LatticeGraph();
         graph = lat.LatticeGraph_Maker(graph);
         /**Connected_ER*/
-   //     Connected_ER ce = new Connected_ER();
-   //     graph = ce.generator(graph);
+        //     Connected_ER ce = new Connected_ER();
+        //     graph = ce.generator(graph);
         /**グラフの可視化*/
-   //    vis v = new vis();
-   //     v.Layout_Graph(graph);
+        //vis v = new vis();
+        //v.Layout_Graph(graph);
+            /**同じグラフでパラメータを変えての実験*/
         /**SFC関連*/
         VNF vnf = new VNF();
         ArrayList<MyVNF> VNF_List = new ArrayList<>();
@@ -62,7 +65,7 @@ public class Main {
         SFC_Path_List=p1.Path_Selection1(S,Path_Set,par.failure_num+1);
         Path_Set.clear();
         int error_num =SFC_Path_List.size();
-        int num_Path =1;;
+        int num_Path =1;
         for(int a=0;a<SFC_Path_List.size();a++) num_Path*=SFC_Path_List.get(S.get(a)).size();
         System.out.println("最大パス数:"+num_Path);
         ArrayList<Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>>> Path_List = new ArrayList<>();
@@ -70,19 +73,19 @@ public class Main {
         SFC_Path_List.clear();
         error_num-= Path_List.size();
         System.out.println("リンク容量確認後パス数:"+Path_List.size());
-        ArrayList<Integer> Error_num = new ArrayList<>();
-        Error_num = op.Total_Placement_Calculator(Path_List,S);
-        int node_error_sum =0;
-        for(int a=0;a<Error_num.size();a++)node_error_sum+= Error_num.get(a);
-        System.out.println("配置組み合わせ数:"+node_error_sum);
+        int total = op.Total_Placement_Calculator(Path_List,S);
+        System.out.println("配置組み合わせ数:"+total);
         ArrayList<ArrayList<Integer>> OPT = new ArrayList<>();
         OPT = p1.SFC_Placement_executer(graph,S,Path_List);
-        error_num+= (node_error_sum-OPT.size());
+        error_num+= (total-OPT.size());
         System.out.println("最適解サイズ:"+OPT.size());
         /**結果の出力*/
+        op.write(OPT,error_num,i,0);
+    }
         double end = System.currentTimeMillis();
         double time = end - start;
         time = time/1000;
-        op.write(OPT,time,error_num);
+        System.out.println(time+"s");
+
     }
 }

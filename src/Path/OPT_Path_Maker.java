@@ -88,7 +88,7 @@ public class OPT_Path_Maker {
         ArrayList<MyEdge> Edge_List = new ArrayList<>(Edge_List1);
         Graph<MyNode,MyEdge> Path = new UndirectedSparseGraph<>();
         for(int a=0;a<Edge_List.size();a++){
-            MyEdge e = new MyEdge(Edge_List.get(a).Edge_ID,Edge_List.get(a).resource,Edge_List.get(a).cost,Edge_List.get(a).location_list,Edge_List.get(a).r_resource);
+            MyEdge e = new MyEdge(Edge_List.get(a).Edge_ID,Edge_List.get(a).resource,Edge_List.get(a).cost);
             Pair<MyNode> pair = path.getEndpoints(Edge_List.get(a));
             Path.addEdge(e,pair.getFirst(),pair.getSecond());
         }
