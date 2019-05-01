@@ -5,12 +5,13 @@ import Input.MyNode;
 import SFC.MySFC;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
-import edu.uci.ics.jung.graph.util.Pair;
+
 
 
 import java.util.*;
+import Input.*;
 
-public class OPT_Path_Maker {
+public class OPT_Path_Maker extends Value{
     public Map<MySFC,ArrayList<Graph<MyNode, MyEdge>>> Path_Maker(Graph<MyNode,MyEdge> graph, ArrayList<MySFC> S){
         Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> Path_List = new HashMap<>();
         ArrayList<ArrayList<MyNode>> SD = new ArrayList<>();
@@ -33,8 +34,7 @@ public class OPT_Path_Maker {
             }
         }
         for(int a=0;a<SD.size();a++){
-            ArrayList<Graph<MyNode,MyEdge>> pathset = new ArrayList<>();
-            pathset = path_search(graph,SD.get(a).get(0),SD.get(a).get(1));
+            ArrayList<Graph<MyNode,MyEdge>> pathset = path_search(graph,SD.get(a).get(0),SD.get(a).get(1));
             /**対象の始点・終点を含むSFCが存在するかどうかチェック*/
             for(int b=0;b<S.size();b++){
                 if(SD.get(a).contains(S.get(b).source)==true&&SD.get(a).contains(S.get(b).sink)==true) {
@@ -62,19 +62,19 @@ public class OPT_Path_Maker {
         /**now nodeがsinkノードかどうかチェック*/
         /**sink nodeの場合、Path_Listに追加*/
         /**その他*/
-        /**now nodeのネイバーチェック*/
         /**pathに含まれていないnodeのみ再帰でpathselection*/
         if(now==sink){
-            path = Clone_Graph(path,before);
+            path = Clone_Graph(path);
             Path_List.add(path);
         }
        else{
+           /**now nodeのネイバーチェック*/
            Collection<MyNode> neighbor1 = graph.getNeighbors(before);
            ArrayList<MyNode> neighbor = new ArrayList<>(neighbor1);
             Graph<MyNode,MyEdge> Path = new UndirectedSparseGraph<>();
            for(int a=0;a<neighbor.size();a++){
                if(path.containsVertex(neighbor.get(a))!=true) {
-                   Path = Clone_Graph(path,before);
+                   Path = Clone_Graph(path);
                    Path_List=Path_selection(graph,Path,before,neighbor.get(a),sink,Path_List);
                }
            }
@@ -82,16 +82,4 @@ public class OPT_Path_Maker {
         return Path_List;
     }
 
-    public Graph<MyNode,MyEdge> Clone_Graph(Graph<MyNode,MyEdge> path,MyNode before){
-        /**Pathのディープコピー*/
-      Collection<MyEdge> Edge_List1 = path.getEdges();
-        ArrayList<MyEdge> Edge_List = new ArrayList<>(Edge_List1);
-        Graph<MyNode,MyEdge> Path = new UndirectedSparseGraph<>();
-        for(int a=0;a<Edge_List.size();a++){
-            MyEdge e = new MyEdge(Edge_List.get(a).Edge_ID,Edge_List.get(a).resource,Edge_List.get(a).cost);
-            Pair<MyNode> pair = path.getEndpoints(Edge_List.get(a));
-            Path.addEdge(e,pair.getFirst(),pair.getSecond());
-        }
-        return Path;
-    }
 }

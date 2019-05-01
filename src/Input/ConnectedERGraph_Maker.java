@@ -4,6 +4,7 @@ import edu.uci.ics.jung.graph.Graph;
 import java.util.*;
 import Parameter.Parameter;
 public class ConnectedERGraph_Maker {
+
     public Graph<MyNode,MyEdge> generator(Graph<MyNode,MyEdge> graph){
         Parameter par = new Parameter();
         Random rnd = new Random();
@@ -18,8 +19,11 @@ public class ConnectedERGraph_Maker {
                 if(Math.random() <= p) {
                     int cost = rnd.nextInt(par.link_cost_max-par.link_cost_min)+par.link_cost_min;
                     int capacity = rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min;
-                    graph.addEdge(new MyEdge(num_edge,capacity,cost), vertexes.get(i), vertexes.get(i+1));
+                    MyEdge e = new MyEdge(num_edge);
+                    graph.addEdge(e,vertexes.get(i), vertexes.get(i+1));
                     num_edge++;
+                    Value.r_e.put(e,capacity);
+                    Value.c_e.put(e,cost);
                 }
             }
         }
@@ -55,7 +59,10 @@ public class ConnectedERGraph_Maker {
                         MyNode unvisitedV = v;
                         int cost = rnd.nextInt(par.link_cost_max - par.link_cost_min) + par.link_cost_min;
                         int capacity = rnd.nextInt(par.link_resource_max - par.link_resource_min) + par.link_resource_min;
-                        graph.addEdge(new MyEdge(num_edge, capacity, cost), visitedVertexes.get(rnd.nextInt(visitedVertexes.size())), unvisitedV);
+                        MyEdge e = new MyEdge(num_edge);
+                        graph.addEdge(e, visitedVertexes.get(rnd.nextInt(visitedVertexes.size())), unvisitedV);
+                        Value.r_e.put(e,capacity);
+                        Value.c_e.put(e,cost);
                         num_edge++;
                         break;
                     }

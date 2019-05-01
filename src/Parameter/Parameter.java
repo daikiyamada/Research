@@ -1,20 +1,22 @@
 package Parameter;
 
 public class Parameter {
+    /**実験回数*/
+    public int exe_num = 1000;
     /**Physical Network関係*/
     /**ノード関係*/
     public int node_num = 9;
     public int servicenode = 6;
     public int terminalnode = node_num-servicenode;
-    public int node_resource_min = 100;
-    public int node_resource_max = 300;
+    public int node_resource_min = 300;
+    public int node_resource_max = 500;
     public int node_cost_min = 5;
     public int node_cost_max = 25;
     /**リンク関係*/
     public int link_resource_min=200;
     public int link_resource_max =300;
     public int link_cost_min = 5;
-    public int link_cost_max = 20;
+    public int link_cost_max = 10;
     /**NWSグラフ*/
     public double p = 0.1;
     public int k = 3;

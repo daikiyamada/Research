@@ -1,36 +1,14 @@
 package Placement;
 import Input.MyEdge;
 import Input.MyNode;
-import Output.Result;
-import Path.OPT_Path_Maker;
 import SFC.MySFC;
-import SFC.MyVNF;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
-import edu.uci.ics.jung.graph.util.Pair;
-
-import java.nio.file.Path;
+import Input.*;
 import java.util.*;
-public class Placement_Maker {
-    class output extends Result{}
-    /**メインのプレイスメントを行う関数*/
-    /**【関数の構成方針】
-     * １：各パスに対して全探索で配置を行う
-     * ２：１つの配置が完了した場合、バックアップ関数の投げる
-     * ３；エラーの場合、nullをバックアップ関数に投げる
-     * ４：コストの出力*/
-    /**バックアップのプレイスメントを行う関数*/
-    /**【関数の構成方針】
-     * １：nullの場合、すぐにコスト値０を返す
-     * ２：メインの配置に対して点素となるパスを見つける
-     * ３：点素となるパス全てに全探索配置をする
-     * ４：failure_numに対応するだけ繰り返す
-     * ５：コスト値を返す、エラーの場合、０を返す
-     * */
+public class Placement_Maker extends Value{
     public Map<MySFC,ArrayList<ArrayList<Graph<MyNode,MyEdge>>>> Path_Selection1(ArrayList<MySFC> S, Map<MySFC, ArrayList<Graph<MyNode, MyEdge>>>Path_List,int Q){
         Map<MySFC,ArrayList<ArrayList<Graph<MyNode,MyEdge>>>> SFC_Path = new HashMap<>();
-        /**先にパスを決める
-         * 決定したパスに対して配置を行う*/
         /**SFCごとのパスを全探索*/
         for(int a=0;a<S.size();a++){
             ArrayList<Graph<MyNode,MyEdge>> Each_List = new ArrayList<>();
@@ -57,8 +35,7 @@ public class Placement_Maker {
     private ArrayList<ArrayList<Graph<MyNode,MyEdge>>> Path_Selection(ArrayList<Graph<MyNode,MyEdge>> Path_List,ArrayList<ArrayList<Graph<MyNode,MyEdge>>>SFC_Path_List,ArrayList<Graph<MyNode,MyEdge>> Each_Path,int Q,int Path_num){
         /**SFCパスの探索*/
         for(int i=Path_num;i<Path_List.size();i++){
-            ArrayList<Graph<MyNode,MyEdge>> SFC_Path = new ArrayList<>();
-            SFC_Path = DeepCopy(Each_Path);
+            ArrayList<Graph<MyNode,MyEdge>> SFC_Path = DeepCopy(Each_Path);
             /**該当パスが点素かどうか判断する*/
             /**すでに選択済みのノードのリストアップ*/
             Set<Integer> Node_Set = new HashSet<>();
@@ -92,13 +69,11 @@ public class Placement_Maker {
         if(SFC_Path.get(S.get(SFC_num)).size()!=0) Each_List = SFC_Path.get(S.get(SFC_num));
         for(int a=0;a<Each_List.size();a++){
             /**各パスを追加して、ディープコピーして次のSFCの探索*/
-            ArrayList<Graph<MyNode,MyEdge>> List_Path = new ArrayList<>();
-            List_Path = DeepCopy(Each_List.get(a));
+            ArrayList<Graph<MyNode,MyEdge>> List_Path = DeepCopy(Each_List.get(a));
             Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> Combination_List = new HashMap<>();
             Path.put(S.get(SFC_num),List_Path);
             for(int b=0;b<Path.size();b++){
-                ArrayList<Graph<MyNode,MyEdge>> LP = new ArrayList<>();
-                LP = DeepCopy(Path.get(S.get(b)));
+                ArrayList<Graph<MyNode,MyEdge>> LP = DeepCopy(Path.get(S.get(b)));
                 Combination_List.put(S.get(b),LP);
             }
             if(SFC_num<S.size()-1)Path_List=Combination_Path_Selection(graph,S,SFC_Path,Combination_List,Path_List,SFC_num+1);
@@ -113,10 +88,11 @@ public class Placement_Maker {
     private int Link_Confirmation(Graph<MyNode,MyEdge> graph,ArrayList<MySFC> S,Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> List){
         int num=0;
         /**各リンク容量を管理するリストの宣言*/
-        Map<Integer,Integer> Capacity_List = new HashMap<>();
+        /**容量リストのディープコピー*/
+        Map<MyEdge,Integer> Capacity_List = new HashMap<>();
         Collection<MyEdge> Edge_List1 = graph.getEdges();
         ArrayList<MyEdge> Edge_List = new ArrayList<>(Edge_List1);
-        for(int a=0;a<Edge_List.size();a++)Capacity_List.put(Edge_List.get(a).Edge_ID,Edge_List.get(a).resource);
+        for(MyEdge e:Value.c_e.keySet())Capacity_List.put(e,Value.r_e.get(e));
         /**各リンクの容量を確認*/
         for(int a=0;a<S.size();a++){
             int resource = S.get(a).Demand_Link_Resource;
@@ -125,10 +101,11 @@ public class Placement_Maker {
                 Edge_List.clear();
                 Edge_List.addAll(Edge_List2);
                 for(int c=0;c<Edge_List.size();c++){
-                    int edge_num = Edge_List.get(c).Edge_ID;
-                    int capacity = Capacity_List.get(edge_num);
+                    System.out.println(Value.r_e);
+                    MyEdge e = find_edge(Edge_List.get(c));
+                    int capacity = Capacity_List.get(e);
                     int r_capacity = capacity-resource;
-                    if(r_capacity>=0) Capacity_List.replace(edge_num,r_capacity);
+                    if(r_capacity>=0) Capacity_List.replace(e,r_capacity);
                     else if(r_capacity<0) num=1;
                 }
             }
@@ -142,19 +119,17 @@ public class Placement_Maker {
         ArrayList<ArrayList<Integer>> OPT = new ArrayList<>();
         for(int a=0;a<SFC_Path_List.size();a++){
             /**リンクリソース使用量の算出*/
-            int link_cost=0;
-            link_cost = Link_Resource_Calculation(S,SFC_Path_List.get(a));
+            int link_cost = Link_Resource_Calculation(S,SFC_Path_List.get(a));
             /**配置*/
             ArrayList<Integer> Node_Cost = new ArrayList<>();
-            Graph<MyNode,MyEdge> Copy_Graph = new UndirectedSparseGraph<>();
             ArrayList<Integer> Visit_List = new ArrayList<>();
-            Copy_Graph = Clone_Graph(graph);
+            Graph<MyNode,MyEdge> Copy_Graph = Clone_Graph(graph);
             Collection<MyNode> Clone_Set = Copy_Graph.getVertices();
             ArrayList<MyNode> Node_List = new ArrayList<>(Clone_Set);
             Map<Integer,Integer> Capacity_List = new HashMap<>();
             for(MyNode n:Node_List){
                 int node_num =n.Node_Num;
-                int capacity = n.resource;
+                int capacity =Value.r_n.get(n);
                 Capacity_List.put(node_num,capacity);
             }
             Node_Cost=Placement_executer(Capacity_List,S,SFC_Path_List.get(a),Node_Cost,0,S.get(0).VNF.size()-1,0,Visit_List,S.get(0).source,0,0);
@@ -193,7 +168,8 @@ public class Placement_Maker {
                 int residual_capacity = r1-r2;
                 if(residual_capacity>=0){
                     /**成功時：次のVNFの配置とノードリソースの計算*/
-                    node_cost2 += S.get(SFC_num).VNF.get(now_VNF).cap_VNF*now.cost;
+                    MyNode node = find_node(now);
+                    node_cost2 += S.get(SFC_num).VNF.get(now_VNF).cap_VNF*c_n.get(node);
                     Capacity_List_Copy.replace(now.Node_Num,residual_capacity);
                     if(now_VNF<VNF_num) OPT=Placement_executer(Capacity_List_Copy,S,SFC_Path_List,OPT,SFC_num,VNF_num,Path_num,Copy_Visit_List,now,node_cost2,now_VNF+1);
                     else if(now_VNF==VNF_num&&Path_num<SFC_Path_List.get(S.get(SFC_num)).size()-1) OPT=Placement_executer(Capacity_List_Copy,S,SFC_Path_List,OPT,SFC_num, VNF_num,Path_num+1,new ArrayList<Integer>(),S.get(SFC_num).source,node_cost2,0);
@@ -224,7 +200,7 @@ public class Placement_Maker {
             for(int b=0;b<Path_List.get(S.get(a)).size();b++){
                 Collection<MyEdge> Edge_List = Path_List.get(S.get(a)).get(b).getEdges();
                 ArrayList<MyEdge> Edge_List2 = new ArrayList<>(Edge_List);
-                for(int c=0;c<Edge_List2.size();c++) total_resource+=resource*Edge_List2.get(c).cost;
+                for(int c=0;c<Edge_List2.size();c++) total_resource+=resource*Value.c_e.get(find_edge(Edge_List2.get(c)));
             }
         }
         return total_resource;
@@ -238,18 +214,6 @@ public class Placement_Maker {
             Copy_SFC_Path.add(copy_graph);
         }
         return Copy_SFC_Path;
-    }
-    private Graph<MyNode,MyEdge> Clone_Graph(Graph<MyNode,MyEdge> path){
-        /**Pathのディープコピー*/
-        Collection<MyEdge> Edge_List1 = path.getEdges();
-        ArrayList<MyEdge> Edge_List = new ArrayList<>(Edge_List1);
-        Graph<MyNode,MyEdge> Path = new UndirectedSparseGraph<>();
-        for(int a=0;a<Edge_List.size();a++){
-            MyEdge e = new MyEdge(Edge_List.get(a).Edge_ID,Edge_List.get(a).resource,Edge_List.get(a).cost);
-            Pair<MyNode> pair = path.getEndpoints(Edge_List.get(a));
-            Path.addEdge(e,pair.getFirst(),pair.getSecond());
-        }
-        return Path;
     }
     private ArrayList<ArrayList<Graph<MyNode,MyEdge>>> Path_Remover(ArrayList<ArrayList<Graph<MyNode,MyEdge>>> Path){
         for(int a=0;a<Path.size();a++){
