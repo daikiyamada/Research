@@ -16,13 +16,13 @@ import edu.uci.ics.jung.graph.event.GraphEvent;
 
 public class Result {
     /**結果の出力や分析のためのクラス*/
-    public void write(ArrayList<ArrayList<Integer>>OPT,double error,int i){
+    public void write_algo(Map<Integer,Double> ave_node,Map<Integer,Double> ave_link,Map<Integer,Integer> med_node,Map<Integer,Integer> med_link,Map<Integer,Double> sd_node,Map<Integer,Double> sd_link,Map<Integer,Integer> error, Map<Integer,Long> exetime){
         Parameter par = new Parameter();
         String Path = new String();
         /**日付の選択*/
         Date now = new Date();
         DateFormat YMD = new SimpleDateFormat("YYYYMMDD");
-        Path = par.path+par.file_name+YMD.format(now)+".csv";
+        Path = par.path+par.file_name+par.path_algo+par.placement_algo+YMD.format(now)+".csv";
         File file = new File(Path);
         PrintWriter pw;
         try {
@@ -33,26 +33,36 @@ public class Result {
             return;
         }
         /**結果をcsvファイルに出力*/
-        /**パラメータの出力*/
-        pw.println(i+"回目");
-        pw.println("パラメータ概要");
-        pw.println("ノード数"+","+"サービスノード数"+","+"ターミナルノード数"+","+"SFC数"+","+"SFCのVNF数"+","+"障害想定数");
-        pw.println(par.node_num+","+par.servicenode+","+par.terminalnode+","+par.SFC_num+","+par.SFC_VNFnum+","+par.failure_num);
-
-        /**OPTの出力*/
-        pw.println("目的関数値（ノード）"+","+"目的関数値（リンク）");
-        double average_node = 0;
-        double average_link = 0;
-        for(int a=0;a<OPT.size();a++){
-            average_node += OPT.get(a).get(0);
-            average_link += OPT.get(a).get(1);
-            pw.println(OPT.get(a).get(0)+","+OPT.get(a).get(1));
-        }
-        average_node = average_node/OPT.size();
-        average_link = average_link/OPT.size();
-        pw.println("平均目的関数値（ノード）"+","+"平均目的関数値（リンク）"+"エラー数");
-        pw.println(average_node+","+average_link+","+error);
+        /**SFC数の出力*/
+        pw.print("SFC数"+",");
+        for(int i=1;i<=10;i++) pw.print(i*10+",");
         pw.println();
+        /**表の作成*/
+        pw.print("ノードコスト値"+",");
+        for(int i=1;i<=10;i++) pw.print(ave_node.get(i*10)+",");
+        pw.println();
+        pw.print("ノード中央値"+",");
+        for(int i=1;i<=10;i++) pw.print(med_node.get(i*10)+",");
+        pw.println();
+        pw.print("ノード標準偏差"+",");
+        for(int i=1;i<=10;i++) pw.print(sd_node.get(i*10)+",");
+        pw.println();
+        pw.print("リンクコスト値"+",");
+        for(int i=1;i<=10;i++) pw.print(ave_link.get(i*10)+",");
+        pw.println();
+        pw.print("リンク中央値"+",");
+        for(int i=1;i<=10;i++) pw.print(med_link.get(i*10)+",");
+        pw.println();
+        pw.print("リンク標準偏差"+",");
+        for(int i=1;i<=10;i++) pw.print(sd_link.get(i*10)+",");
+        pw.println();
+        pw.print("エラー数"+",");
+        for(int i=1;i<=10;i++) pw.print(error.get(i*10)+",");
+        pw.println();
+        pw.print("実行時間"+",");
+        for(int i=1;i<=10;i++) pw.print(exetime.get(i*10)+",");
+        pw.println();
+
         pw.close();
     }
 

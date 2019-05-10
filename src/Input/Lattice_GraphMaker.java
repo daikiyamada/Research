@@ -21,7 +21,7 @@ public class Lattice_GraphMaker extends Value{
         // + - + - +
         for(int i = 0; i < latticeSize-1; i++) {
             int cost = rnd.nextInt(par.link_cost_max-par.link_cost_min)+par.link_cost_min;
-            int capacity = rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min;
+            int capacity = (rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min)*100;
             MyEdge e = new MyEdge(num_edge);
             edge_resource(e,capacity);
             edge_cost(e,cost);
@@ -40,8 +40,8 @@ public class Lattice_GraphMaker extends Value{
         for(int row = 1; row < latticeSize; row++) {
             int baseVertex = latticeSize * row;
             for(int i = 0; i < latticeSize-1; i++) {
-                int capacity1 = rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min;
-                int capacity2 = rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min;
+                int capacity1 = (rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min)*100;
+                int capacity2 = (rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min)*100;
                 int cost1 = rnd.nextInt(par.link_cost_max-par.link_cost_min)+par.link_cost_min;
                 int cost2 = rnd.nextInt(par.link_cost_max-par.link_cost_min)+par.link_cost_min;
                 MyEdge e = new MyEdge(num_edge);
@@ -56,7 +56,7 @@ public class Lattice_GraphMaker extends Value{
                 num_edge++;
             }
             // 上の頂点と接続. 一番右の頂点は右に頂点は無いので上だけ.
-            int capacity = rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min;
+            int capacity = (rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min)*100;
             int cost = rnd.nextInt(par.link_cost_max-par.link_cost_min)+par.link_cost_min;
             MyEdge e = new MyEdge(num_edge);
             edge_resource(e,capacity);

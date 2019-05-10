@@ -21,7 +21,9 @@ public class MyNode_Maker  extends Value{
             num_list.remove(0);
         }
         for(int a=0;a<par.servicenode;a++){
-            int resource = rnd.nextInt(par.node_resource_max-par.node_resource_min)+par.node_resource_min;
+            int p = par.node_resource/100;
+            int r = rnd.nextInt(10-p)+p;
+            int resource = 100*r;
             int cost = rnd.nextInt(par.node_cost_max-par.node_cost_min)+par.node_cost_min;
             MyNode s = new MyNode("s",num_list.get(0));
             node_resource(s,resource);

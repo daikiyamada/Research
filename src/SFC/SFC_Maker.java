@@ -4,13 +4,13 @@ import java.util.*;
 import Input.MyNode;
 import Parameter.Parameter;
 public class SFC_Maker {
-    public ArrayList<MySFC> SFCMaker(ArrayList<MyNode> List,ArrayList<MyVNF> VNF_List){
+    public ArrayList<MySFC> SFCMaker(ArrayList<MyNode> List,ArrayList<MyVNF> VNF_List,int SFC_num){
         ArrayList<MySFC> S = new ArrayList<>();
         Parameter par = new Parameter();
         ArrayList<MyNode> t_list = new ArrayList<>();
         Random rnd = new Random();
         for(int b=0;b<List.size();b++) if(List.get(b).Node_ID=="t") t_list.add(List.get(b));
-        for(int a=0;a<par.SFC_num;a++){
+        for(int a=0;a<SFC_num;a++){
             Collections.shuffle(t_list);
             /**始点・終点*/
             MyNode source = t_list.get(0);

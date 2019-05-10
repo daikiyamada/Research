@@ -1,18 +1,20 @@
 package Placement;
+
 import Input.MyEdge;
 import Input.MyNode;
 import Input.Value;
 import SFC.MySFC;
-import java.util.*;
-import Parameter.Parameter;
 import SFC.MyVNF;
 import edu.uci.ics.jung.graph.Graph;
-public class Algorithm_Based_GAP extends Value {
+
+import java.util.*;
+
+public class Algorithm_Based_GAP_back extends Value {
     public void Placement_Algo1(Graph<MyNode, MyEdge> G,ArrayList<MySFC> S,Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> P,int Q){
         Value.cost_node = 0;
         Map<MyNode,Integer> r_n2 = new HashMap<>();
         String feas = "yes";
-        /**SFC集合をr_sに基づいて降順にソートする*/
+        /**SFCのソート*/
         Collections.sort(S, new Comparator<MySFC>() {
             @Override
             public int compare(MySFC o1, MySFC o2) {
@@ -26,6 +28,12 @@ public class Algorithm_Based_GAP extends Value {
             for(int i=0;i<Q;i++){
                 ArrayList<MyNode> V = new ArrayList<>(P.get(s).get(i).getVertices());
                 ArrayList<MyVNF> U = s.VNF;
+                Collections.sort(U, new Comparator<MyVNF>() {
+                    @Override
+                    public int compare(MyVNF o1, MyVNF o2) {
+                        return o1.VNF_id>o2.VNF_id ? -1:1;
+                    }
+                });
                 feas = "yes";
                     long d2 = 999999999;
                     long d =0;
@@ -52,7 +60,7 @@ public class Algorithm_Based_GAP extends Value {
                                 if(feas=="yes"){
                                     Value.cost_node+=f.cap_VNF*c_n.get(find_node(min_node));
                                     r_n2.replace(find_node(min_node),r_n2.get(find_node(min_node))-f.cap_VNF);
-                                    for(int j=0;j<V.size();j++){
+                                    for(int j=V.size()-1;j>=0;j--){
                                         if(V.get(j).Node_Num==min_node.Node_Num) break;
                                         else V.remove(j);
                                     }

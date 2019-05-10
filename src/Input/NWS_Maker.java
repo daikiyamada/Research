@@ -19,7 +19,7 @@ public class NWS_Maker extends Value{
         /**リングの作成*/
         for(int a=0;a<numnode;a++){
             int cost = rnd.nextInt(par.link_cost_max-par.link_cost_min)+par.link_cost_min;
-            int capacity = rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min;
+            int capacity = (rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min)*100;
             MyEdge e = new MyEdge(edge_num);
             edge_resource(e,capacity);
             edge_cost(e,cost);
@@ -31,7 +31,7 @@ public class NWS_Maker extends Value{
         for(int a=0;a<numnode;a++){
             int node_k = a+par.k;
             int cost = rnd.nextInt(par.link_cost_max-par.link_cost_min)+par.link_cost_min;
-            int capacity = rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min;
+            int capacity = (rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min)*100;
             MyEdge e = new MyEdge(edge_num);
             edge_resource(e,capacity);
             edge_cost(e,cost);
@@ -51,7 +51,7 @@ public class NWS_Maker extends Value{
         for(int a=0;a<Edge_List.size();a++){
             Pair<MyNode> n = Physical_Network.getEndpoints(Edge_List.get(a));
             int cost = rnd.nextInt(par.link_cost_max-par.link_cost_min)+par.link_cost_min;
-            int capacity = rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min;
+            int capacity = (rnd.nextInt(par.link_resource_max-par.link_resource_min)+par.link_resource_min)*100;
             MyEdge e = new MyEdge(edge_num);
             edge_resource(e,capacity);
             edge_cost(e,cost);
