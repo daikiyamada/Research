@@ -2,10 +2,43 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8b2aa9da-c07d-4ff5-8636-a74d15b9cdd3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Research.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Research.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/jung2_2_0_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Placement/Algorithm_FF_back.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Placement/Algorithm_FF_front.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Research.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Research.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Input/Lattice_GraphMaker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Input/Lattice_GraphMaker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Input/MyNode_Maker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Input/MyNode_Maker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Input/NWS_Maker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Input/NWS_Maker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$Connected_ER.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$Connected_ER.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$LatticeGraph.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$LatticeGraph.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$NWSGraph.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$NWSGraph.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$Par.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$Par.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$Path_All.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$Path_All.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$Place1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$Place1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$SFC.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$SFC.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$VNF.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$VNF.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$algo1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$algo1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$algop1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$algop1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$node.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$output.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$output.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$vis.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$vis.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Output/Result.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Output/Result.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Parameter/Parameter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Parameter/Parameter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Placement/Algorithm_Based_GAP$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Placement/Algorithm_Based_GAP$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/Placement/Algorithm_Based_GAP.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Placement/Algorithm_Based_GAP.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/SFC/SFC_Maker$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/SFC/SFC_Maker$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Research/SFC/SFC_Maker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/SFC/SFC_Maker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Output/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Output/Result.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Parameter/Parameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Parameter/Parameter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Path/Algorithm_Based_MECF.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Path/Algorithm_Based_MECF.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Path/Algorithm_Based_MECF_sort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Path/Algorithm_Based_MECF_sort.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Path/Algorithm_Based_MECF_usual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Path/Algorithm_Based_MECF_usual.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Path/Greedy_Path_Algorithm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Placement/Algorithm_Based_GAP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Placement/Algorithm_Based_GAP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Placement/Algorithm_Based_GAP_back.java" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,57 +51,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-652">
-              <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+            <state relative-caret-position="1350">
+              <caret line="103" column="59" selection-start-line="103" selection-start-column="59" selection-end-line="103" selection-end-column="59" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Research.iml">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Parameter/Parameter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" selection-start-line="13" selection-end-line="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor />
-              <second_editor />
-            </state>
-          </provider>
-          <provider editor-type-id="Gfm" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Input/NWS_Maker.java">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Input/MyNode_Maker.java">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Input/Lattice_GraphMaker.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="225">
+              <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -76,8 +84,16 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/Research.iml" />
+        <option value="$PROJECT_DIR$/src/Output/Result.java" />
+        <option value="$PROJECT_DIR$/src/Path/Algorithm_Based_MECF.java" />
+        <option value="$PROJECT_DIR$/src/Path/Algorithm_Based_MECF_sort.java" />
+        <option value="$PROJECT_DIR$/src/Path/Algorithm_Based_MECF_usual.java" />
+        <option value="$PROJECT_DIR$/src/Placement/Algorithm_Based_GAP.java" />
+        <option value="$PROJECT_DIR$/src/Placement/Algorithm_FF_back.java" />
+        <option value="$PROJECT_DIR$/src/Placement/Algorithm_FF_front.java" />
+        <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="$PROJECT_DIR$/src/Parameter/Parameter.java" />
       </list>
     </option>
   </component>
@@ -91,6 +107,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -126,28 +143,32 @@
               <item name="Research" type="b2602c69:ProjectViewProjectNode" />
               <item name="Research" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Path" type="462c0819:PsiDirectoryNode" />
+              <item name="Placement" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Research" type="b2602c69:ProjectViewProjectNode" />
               <item name="Research" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Placement" type="462c0819:PsiDirectoryNode" />
+              <item name="SFC" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="Placement" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -160,6 +181,20 @@
         </RuleState>
       </list>
     </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="Research" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -179,14 +214,20 @@
       <option name="project" value="LOCAL" />
       <updated>1557490594033</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="05102 commit2">
+      <created>1557491629356</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1557491629356</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28540772" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31831187" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -194,7 +235,7 @@
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32891566" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -216,6 +257,37 @@
       <window_info anchor="right" id="Maven" order="8" />
       <window_info anchor="right" id="GfmBrowser" order="9" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31473532" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32891566" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Java Regex Tester" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="11" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Palette&#9;" order="6" />
+      <window_info anchor="right" id="Maven Projects" order="7" />
+      <window_info anchor="right" id="Maven" order="8" />
+      <window_info anchor="right" id="GfmBrowser" order="9" />
+    </layout-to-restore>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="05102 commit2" />
@@ -224,10 +296,21 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Research.iml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        <state relative-caret-position="180">
+          <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Path/Greedy_Path_Algorithm.java" />
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor />
+        </state>
+      </provider>
+      <provider editor-type-id="Gfm" />
+      <provider editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Input/NWS_Maker.java">
       <provider selected="true" editor-type-id="text-editor" />
@@ -244,20 +327,131 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor />
+    <entry file="file://$PROJECT_DIR$/src/Input/SINET_GraphMaker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
         </state>
       </provider>
-      <provider editor-type-id="text-editor" />
-      <provider editor-type-id="Gfm" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/SFC/MySFC.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Output/Calculation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Input/Value.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Placement/Placement_Maker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Placement/Algorithm_FF_back.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-9">
+          <caret line="20" column="82" lean-forward="true" selection-start-line="20" selection-start-column="82" selection-end-line="20" selection-end-column="82" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Placement/Algorithm_FF_front.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="49" column="49" lean-forward="true" selection-start-line="49" selection-start-column="49" selection-end-line="49" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Path/Algorithm_Based_MECF.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="91" column="16" selection-start-line="91" selection-start-column="16" selection-end-line="91" selection-end-column="64" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1166#1167#0" expanded="true" />
+            <element signature="e#1259#1260#0" expanded="true" />
+            <element signature="e#1910#1911#0" expanded="true" />
+            <element signature="e#1997#1998#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Path/Algorithm_Based_MECF_sort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="90" column="64" selection-start-line="90" selection-start-column="64" selection-end-line="90" selection-end-column="64" />
+          <folding>
+            <element signature="e#1100#1101#0" expanded="true" />
+            <element signature="e#1193#1194#0" expanded="true" />
+            <element signature="e#1894#1895#0" expanded="true" />
+            <element signature="e#1981#1982#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Path/Algorithm_Based_MECF_usual.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="83" column="64" selection-start-line="83" selection-start-column="64" selection-end-line="83" selection-end-column="64" />
+          <folding>
+            <element signature="e#1640#1641#0" expanded="true" />
+            <element signature="e#1727#1728#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Placement/Algorithm_Based_GAP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="58" column="36" selection-start-line="58" selection-start-column="36" selection-end-line="58" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Output/Result.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="620">
+          <caret line="146" column="92" selection-start-line="146" selection-start-column="92" selection-end-line="146" selection-end-column="92" />
+          <folding>
+            <element signature="method#placement_writer_times#0;class#Result#0" />
+            <element signature="method#graph_writer#0;class#Result#0" />
+            <element signature="method#path_writer#0;class#Result#0" />
+            <element signature="method#Total_Placement_Calculator#0;class#Result#0" />
+            <element signature="method#Total_Placement_Calculator2#0;class#Result#0" />
+          </folding>
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-652">
-          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+        <state relative-caret-position="1350">
+          <caret line="103" column="59" selection-start-line="103" selection-start-column="59" selection-end-line="103" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Parameter/Parameter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
         </state>
       </provider>
     </entry>
@@ -319,7 +513,6 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
@@ -338,6 +531,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
+          <last-edited>jung2-2_0_1</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

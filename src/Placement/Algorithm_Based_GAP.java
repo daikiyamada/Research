@@ -1,4 +1,4 @@
-package Placement;
+    package Placement;
 import Input.MyEdge;
 import Input.MyNode;
 import Input.Value;
@@ -7,68 +7,65 @@ import java.util.*;
 import Parameter.Parameter;
 import SFC.MyVNF;
 import edu.uci.ics.jung.graph.Graph;
+import Output.Result;
 public class Algorithm_Based_GAP extends Value {
-    public void Placement_Algo1(Graph<MyNode, MyEdge> G,ArrayList<MySFC> S,Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> P,int Q){
+    class result extends Result{}
+    public void Placement_Algo1(Graph<MyNode, MyEdge> G,ArrayList<MySFC> S,Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> P,int Q,int num){
         Value.cost_node = 0;
         Map<MyNode,Integer> r_n2 = new HashMap<>();
         String feas = "yes";
-        /**SFC集合をr_sに基づいて降順にソートする*/
-        Collections.sort(S, new Comparator<MySFC>() {
-            @Override
-            public int compare(MySFC o1, MySFC o2) {
-                return o1.Demand_Link_Resource>o2.Demand_Link_Resource ? -1:1;
-            }
-        });
         /**残容量リストの作成*/
         for(MyNode n:G.getVertices()) r_n2.put(find_node(n),Value.r_n.get(n));
+        /**何回目の配置なのか出力*/
+        result rw = new result();
+        rw.placement_writer_times(num,S.size());
         /**配置開始*/
         whole:for(MySFC s:S){
             for(int i=0;i<Q;i++){
                 ArrayList<MyNode> V = new ArrayList<>(P.get(s).get(i).getVertices());
                 ArrayList<MyVNF> U = s.VNF;
+                Map<MyVNF,MyNode> List = new HashMap<>();
                 feas = "yes";
-                    long d2 = 999999999;
-                    long d =0;
                     for(MyVNF f:U){
                         /**該当VNFを配置できるノードの選別*/
-                        ArrayList<MyNode> Fk = selection_node(V,r_n2,f);
+                        ArrayList<MyNode> Fk = new ArrayList<>();
+                        for(MyNode n:V){
+                            MyNode n2 = find_node(n);
+                            if(r_n2.get(n2)-f.cap_VNF>=0) Fk.add(n);
+                        }
                         if(Fk.size()==0){
                             feas = "no";
                             break whole;
                         }
-                        else{
+                        else {
                             /**選別されたノードの中から最小コストのノードを選択する*/
-                            Collections.sort(Fk, new Comparator<MyNode>() {
-                                        @Override
-                                        public int compare(MyNode o1, MyNode o2) {
-                                            return Value.c_n.get(find_node(o1)) < Value.c_n.get(find_node(o2)) ? -1 : 1;
-                                        }
-                                    });
+                            /**最小値を見つける*/
+                            int min = 100;
                             MyNode min_node = Fk.get(0);
-                            if(Fk.size()-1==0) d = -999999999;
-                            else{
-                                d = c_n.get(find_node(min_node))-c_n.get(find_node(Fk.get(1)));
-                                if(d<d2) d2 = d;
-                                if(feas=="yes"){
-                                    Value.cost_node+=f.cap_VNF*c_n.get(find_node(min_node));
-                                    r_n2.replace(find_node(min_node),r_n2.get(find_node(min_node))-f.cap_VNF);
-                                    for(int j=0;j<V.size();j++){
-                                        if(V.get(j).Node_Num==min_node.Node_Num) break;
-                                        else V.remove(j);
-                                    }
+                            for(MyNode v:Fk){
+                                if(min>Value.c_n.get(find_node(v))){
+                                    min_node = v;
+                                    min = Value.c_n.get(find_node(v));
                                 }
+                            }
+                            /**容量が残っているノードに対しての配置*/
+                            List.put(f, min_node);
+                            /**コストの計算*/
+                            Value.cost_node += f.cap_VNF * c_n.get(find_node(min_node));
+                            /**容量リストの書き換え*/
+                            r_n2.replace(find_node(min_node), r_n2.get(find_node(min_node)) - f.cap_VNF);
+                            /**該当ノードから始点までのノードを削除*/
+                            for (int j = 0; j < V.size(); j++) {
+                                if (V.get(j).Node_Num == min_node.Node_Num) break;
+                                else V.remove(j);
                             }
                         }
                     }
+                    /**結果の出力*/
+                    rw.placement_writer(P.get(s).get(i),r_n2,List,U,s.SFC_num,i,S.size());
             }
         }
-    }
-    public ArrayList<MyNode> selection_node(ArrayList<MyNode> V,Map<MyNode,Integer> r_n2,MyVNF f){
-        ArrayList<MyNode> Fk = new ArrayList<>();
-        for(MyNode n:V){
-            MyNode n2 = find_node(n);
-            if(f.cap_VNF<=r_n2.get(n2)) Fk.add(n);
-        }
-        return Fk;
+        if(feas=="no") Value.cost_node=0;
+        rw.each_placement_writer(feas,num,S.size());
     }
 }

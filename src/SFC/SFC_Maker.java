@@ -18,8 +18,8 @@ public class SFC_Maker {
             /**要求リンクリソース*/
             int resource = rnd.nextInt(par.SFC_resource_max-par.SFC_resource_min)+par.SFC_resource_min;
             /**VNF集合の決定*/
-            Collections.shuffle(VNF_List);
             ArrayList<MyVNF> VNF = new ArrayList<>();
+            Collections.shuffle(VNF_List);
             for(int b=0;b<par.SFC_VNFnum;b++) VNF.add(VNF_List.get(b));
             Collections.sort(VNF, new Comparator<MyVNF>() {
                 @Override

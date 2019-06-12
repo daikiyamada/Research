@@ -11,7 +11,9 @@ public class MyNode_Maker  extends Value{
         Graph<MyNode, MyEdge> Graph = new UndirectedSparseGraph<MyNode, MyEdge>();
         /**グラフのノード形成*/
         ArrayList<Integer> num_list = new ArrayList<>();
+        /**ノード番号の挿入*/
         for(int a=0;a<par.node_num;a++) num_list.add(a);
+        /**ターミナルノードの構成*/
         for(int a=0;a<par.terminalnode;a++){
             Collections.shuffle(num_list);
             MyNode t = new MyNode("t",num_list.get(0));
@@ -20,10 +22,11 @@ public class MyNode_Maker  extends Value{
             Graph.addVertex(t);
             num_list.remove(0);
         }
+        /**サービスノードの構成*/
         for(int a=0;a<par.servicenode;a++){
-            int p = par.node_resource/100;
-            int r = rnd.nextInt(10-p)+p;
-            int resource = 100*r;
+            /**サービスノードの容量決定（最低でも１０個配置できるように設定）*/
+            int r = rnd.nextInt(9);
+            int resource = par.node_resource+100*r;
             int cost = rnd.nextInt(par.node_cost_max-par.node_cost_min)+par.node_cost_min;
             MyNode s = new MyNode("s",num_list.get(0));
             node_resource(s,resource);

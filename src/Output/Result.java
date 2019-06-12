@@ -11,64 +11,202 @@ import Input.MyEdge;
 import Input.MyNode;
 import Parameter.Parameter;
 import SFC.MySFC;
+import SFC.MyVNF;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.event.GraphEvent;
+import edu.uci.ics.jung.graph.util.Pair;
 
 public class Result {
-    /**çµæœã®å‡ºåŠ›ã‚„åˆ†æã®ãŸã‚ã®ã‚¯ãƒ©ã‚¹*/
-    public void write_algo(Map<Integer,Double> ave_node,Map<Integer,Double> ave_link,Map<Integer,Integer> med_node,Map<Integer,Integer> med_link,Map<Integer,Double> sd_node,Map<Integer,Double> sd_link,Map<Integer,Integer> error, Map<Integer,Long> exetime){
+    /**Œ‹‰Ê‚Ìo—Í‚â•ªÍ‚Ì‚½‚ß‚ÌƒNƒ‰ƒX*/
+    public void write_algo1(){
         Parameter par = new Parameter();
         String Path = new String();
-        /**æ—¥ä»˜ã®é¸æŠ*/
-        Date now = new Date();
-        DateFormat YMD = new SimpleDateFormat("YYYYMMDD");
-        Path = par.path+par.file_name+par.path_algo+par.placement_algo+YMD.format(now)+".csv";
+        Path = par.path+par.file_name+par.path_algo+par.placement_algo+"result.csv";
         File file = new File(Path);
         PrintWriter pw;
         try {
-            FileWriter fw = new FileWriter(Path, true);
-            pw = new PrintWriter(Path);
+            FileWriter fw = new FileWriter(file, true);
+            pw = new PrintWriter(fw);
+            /**Œ‹‰Ê‚ğcsvƒtƒ@ƒCƒ‹‚Éo—Í*/
+            /**SFC”‚Ìo—Í*/
+            pw.print("SFC”"+",");
+            pw.print("ƒm[ƒhƒRƒXƒg’l"+",");
+            pw.print("ƒm[ƒh’†‰›’l"+",");
+            pw.print("ƒm[ƒh•W€•Î·"+",");
+            pw.print("ƒŠƒ“ƒNƒRƒXƒg’l"+",");
+            pw.print("ƒŠƒ“ƒN’†‰›’l"+",");
+            pw.print("ƒŠƒ“ƒN•W€•Î·"+",");
+            pw.print("ƒGƒ‰[”"+",");
+            pw.print("path_error"+",");
+            pw.print("place_error"+",");
+            pw.print("ÀsŠÔ"+",");
+            pw.println();
+            pw.close();
         } catch(IOException ex){
-            System.out.println("ãƒ•ã‚¡ã‚¤ãƒ«ã®å‡ºåŠ›ã«å¤±æ•—ã—ã¾ã—ãŸ");
+            System.out.println("ƒtƒ@ƒCƒ‹‚Ìo—Í‚É¸”s‚µ‚Ü‚µ‚½");
             return;
         }
-        /**çµæœã‚’csvãƒ•ã‚¡ã‚¤ãƒ«ã«å‡ºåŠ›*/
-        /**SFCæ•°ã®å‡ºåŠ›*/
-        pw.print("SFCæ•°"+",");
-        for(int i=1;i<=10;i++) pw.print(i*10+",");
-        pw.println();
-        /**è¡¨ã®ä½œæˆ*/
-        pw.print("ãƒãƒ¼ãƒ‰ã‚³ã‚¹ãƒˆå€¤"+",");
-        for(int i=1;i<=10;i++) pw.print(ave_node.get(i*10)+",");
-        pw.println();
-        pw.print("ãƒãƒ¼ãƒ‰ä¸­å¤®å€¤"+",");
-        for(int i=1;i<=10;i++) pw.print(med_node.get(i*10)+",");
-        pw.println();
-        pw.print("ãƒãƒ¼ãƒ‰æ¨™æº–åå·®"+",");
-        for(int i=1;i<=10;i++) pw.print(sd_node.get(i*10)+",");
-        pw.println();
-        pw.print("ãƒªãƒ³ã‚¯ã‚³ã‚¹ãƒˆå€¤"+",");
-        for(int i=1;i<=10;i++) pw.print(ave_link.get(i*10)+",");
-        pw.println();
-        pw.print("ãƒªãƒ³ã‚¯ä¸­å¤®å€¤"+",");
-        for(int i=1;i<=10;i++) pw.print(med_link.get(i*10)+",");
-        pw.println();
-        pw.print("ãƒªãƒ³ã‚¯æ¨™æº–åå·®"+",");
-        for(int i=1;i<=10;i++) pw.print(sd_link.get(i*10)+",");
-        pw.println();
-        pw.print("ã‚¨ãƒ©ãƒ¼æ•°"+",");
-        for(int i=1;i<=10;i++) pw.print(error.get(i*10)+",");
-        pw.println();
-        pw.print("å®Ÿè¡Œæ™‚é–“"+",");
-        for(int i=1;i<=10;i++) pw.print(exetime.get(i*10)+",");
-        pw.println();
-
-        pw.close();
     }
+    public void write_algo(int sfc_num,double node_cost,double link_cost ,int medeian_node,int median_link,double std_node,double std_link,int error_num,int error_num2,int error_num3,long time){
+        Parameter par = new Parameter();
+        String Path = new String();
+        Path = par.path+par.file_name+par.path_algo+par.placement_algo+"result.csv";
+        File file = new File(Path);
+        PrintWriter pw;
+        try {
+            FileWriter fw = new FileWriter(file, true);
+            pw = new PrintWriter(fw);
+            /**Œ‹‰Ê‚ğcsvƒtƒ@ƒCƒ‹‚Éo—Í*/
+            /**SFC”‚Ìo—Í*/
+            pw.print(sfc_num+",");
+            pw.print(node_cost+",");
+            pw.print(medeian_node+",");
+            pw.print(std_node+",");
+            pw.print(link_cost+",");
+            pw.print(median_link+",");
+            pw.print(std_link+",");
+            pw.print(error_num+",");
+            pw.print(error_num2+",");
+            pw.print(error_num3+",");
+            pw.print(time+",");
+            pw.println();
+            pw.close();
+        } catch(IOException ex){
+            System.out.println("ƒtƒ@ƒCƒ‹‚Ìo—Í‚É¸”s‚µ‚Ü‚µ‚½");
+            return;
+        }
+    }
+    public void each_placement_writer(String yn,int num,int sfc_num){
+        Parameter par = new Parameter();
+        String Path = new String();
+        Path = par.path+par.file_name+par.path_algo+par.placement_algo+"SFC"+sfc_num+"placement2.csv";
+        File file = new File(Path);
+        try {
+            FileWriter fw = new FileWriter(file, true);
+            PrintWriter pw = new PrintWriter(fw);
+             pw.println(num+"‰ñ–Ú"+","+yn);
+            pw.close();
+        } catch(IOException ex){
+            System.out.println("ƒtƒ@ƒCƒ‹‚Ìo—Í‚É¸”s‚µ‚Ü‚µ‚½5");
+        }
+    }
+    public void placement_writer_times(int num,int sfc_num){
+        Parameter par = new Parameter();
+        String Path = new String();
+        Path = par.path+par.file_name+par.path_algo+par.placement_algo+"SFC"+sfc_num+"placement.csv";
+        File file = new File(Path);
+        try {
+            FileWriter fw = new FileWriter(file, true);
+            PrintWriter pw = new PrintWriter(fw);
+            pw.println(num+"‰ñ–Ú");
+            pw.println();
+            pw.close();
+        } catch(IOException ex){
+            System.out.println("ƒtƒ@ƒCƒ‹‚Ìo—Í‚É¸”s‚µ‚Ü‚µ‚½4");
+        }
+    }
+    public void placement_writer(Graph<MyNode,MyEdge> Path,Map<MyNode,Integer> R,Map<MyVNF,MyNode> List,ArrayList<MyVNF> VNF_List,int sfc_num,int r_num,int sfc){
+        Parameter par = new Parameter();
+        String file_Path = new String();
+        file_Path = par.path+par.file_name+par.path_algo+par.placement_algo+"SFC"+sfc+"placement.csv";
+        File file = new File(file_Path);
 
+        try {
+            FileWriter fw = new FileWriter(file, true);
+            PrintWriter pw = new PrintWriter(fw);
+            pw.print(sfc_num+"-"+r_num+",");
+            for(MyVNF t:VNF_List){
+                pw.print("("+t.VNF_id+"-"+t.cap_VNF+")="+List.get(t)+",");
+            }
+            pw.println();
+            pw.close();
+        } catch(IOException ex){
+            System.out.println("ƒtƒ@ƒCƒ‹‚Ìo—Í‚É¸”s‚µ‚Ü‚µ‚½0");
+        }
+    }
+    public void graph_writer(Graph<MyNode,MyEdge> graph,Map<MyEdge,Integer> R,int num,int sfc_num){
+        Parameter par = new Parameter();
+        String Path = new String();
+        Path = par.path+par.file_name+par.path_algo+par.placement_algo+"SFC"+sfc_num+"path.csv";
+        File file = new File(Path);
+
+        try {
+            FileWriter fw = new FileWriter(file, true);
+            PrintWriter pw = new PrintWriter(fw);
+
+            /**ƒpƒXEƒOƒ‰ƒt\‘¢‚Ì‰Â‹‰»*/
+            pw.println();
+            pw.println();
+            pw.println(num+"‰ñ–Ú");
+            ArrayList<MyNode> V = new ArrayList<MyNode>(graph.getVertices());
+            pw.print(",");
+            for(MyNode v :V)pw.print(v.Node_ID+v.Node_Num+",");
+            pw.println();
+            for(MyNode v: V){
+                pw.print(v.Node_ID+v.Node_Num+",");
+                for(MyNode u:V){
+                    if(graph.findEdge(v,u)!=null){
+                        MyEdge e = graph.findEdge(u,v);
+                        pw.print("(1-"+R.get(e)+")"+",");
+                    }
+                    else if(graph.findEdge(v,u)==null) pw.print("0"+",");
+                }
+                pw.println();
+            }
+            pw.println();
+            pw.println();
+            pw.close();
+        } catch(IOException ex){
+            System.out.println("ƒtƒ@ƒCƒ‹‚Ìo—Í‚É¸”s‚µ‚Ü‚µ‚½1");
+        }
+
+    }
+    public void path_writer(Graph<MyNode,MyEdge> G,ArrayList<MyEdge> path,int num,int num2,int sfc_num) {
+        Parameter par = new Parameter();
+        String Path = new String();
+        Path = par.path + par.file_name + par.path_algo + par.placement_algo  +"SFC"+sfc_num+ "path.csv";
+        File file = new File(Path);
+        PrintWriter pw;
+        try {
+            FileWriter fw = new FileWriter(file, true);
+            pw = new PrintWriter(fw);
+            /**csvƒtƒ@ƒCƒ‹‚Éo—Í*/
+            /**ƒpƒXì¬‰ß’ö‚Ì‰Â‹‰»*/
+            pw.print("(" + num + "-" + num2 + ")"+",");
+            for (MyEdge e : path) {
+                Pair<MyNode> list = G.getEndpoints(find_edge(G, e));
+                pw.print("(" + list.getFirst().Node_Num + "C" + list.getSecond().Node_Num + ")" + ",");
+            }
+            pw.println();
+            pw.close();
+        } catch (IOException ex) {
+            System.out.println("ƒtƒ@ƒCƒ‹‚Ìo—Í‚É¸”s‚µ‚Ü‚µ‚½2");
+            return;
+        }
+
+    }
+    public void each_path_writer(String yn,int num,int sfc_num){
+        Parameter par = new Parameter();
+        String Path = new String();
+        Path = par.path+par.file_name+par.path_algo+par.placement_algo+"SFC"+sfc_num+"path2.csv";
+        File file = new File(Path);
+        try {
+            FileWriter fw = new FileWriter(file, true);
+            PrintWriter pw = new PrintWriter(fw);
+            pw.println(num+"‰ñ–Ú"+","+yn);
+            pw.close();
+        } catch(IOException ex){
+            System.out.println("ƒtƒ@ƒCƒ‹‚Ìo—Í‚É¸”s‚µ‚Ü‚µ‚½3");
+        }
+    }
+    private MyEdge find_edge(Graph<MyNode,MyEdge> G,MyEdge e){
+        MyEdge e2 =null;
+        for(MyEdge e1:G.getEdges()) if(e1.Edge_ID==e.Edge_ID) e2 = e1;
+        return e2;
+    }
     public int Total_Placement_Calculator(ArrayList<Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>>> Path_List,ArrayList<MySFC> S){
         ArrayList<Integer> error_num = new ArrayList<>();
-        /**é…ç½®çµ„ã¿åˆã‚ã›æ•°ç®—å‡º*/
+        /**”z’u‘g‚İ‡‚í‚¹”Zo*/
         int total = 0;
         for(Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> List:Path_List){
             int num =1;
@@ -86,14 +224,14 @@ public class Result {
         }
         return total;
     }
-    /**ãƒã‚°ãƒã‚§ãƒƒã‚¯å‡ºåŠ›é–¢æ•°*/
+    /**ƒoƒOƒ`ƒFƒbƒNo—ÍŠÖ”*/
     public int Total_Placement_Calculator2(Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> Path_List,ArrayList<MySFC> S){
         int num=1;
         /***/
         for(int i =0;i<Path_List.size();i++){
             ArrayList<Graph<MyNode,MyEdge>> graph = new ArrayList<>(Path_List.get(S.get(i)));
             for(int j=0;j<graph.size();j++){
-                /**ï¼‘ã¤ã®ãƒ‘ã‚¹ã§ã®é…ç½®æ•°*/
+                /**‚P‚Â‚ÌƒpƒX‚Å‚Ì”z’u”*/
                 Graph<MyNode,MyEdge> Path = graph.get(j);
                 Collection<MyNode> node_list = Path.getVertices();
                 ArrayList<MyNode> node_list2 = new ArrayList<>(node_list);

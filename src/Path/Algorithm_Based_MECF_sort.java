@@ -13,10 +13,12 @@ import edu.uci.ics.jung.graph.util.Pair;
 import org.apache.commons.collections15.Transformer;
 
 import java.util.*;
+import Output.Result;
 
 public class Algorithm_Based_MECF_sort extends Value{
     class OPT extends Placement_Maker {}
-    public Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> Routing_Algo1(Graph<MyNode, MyEdge> G,ArrayList<MySFC> S,int Q){
+    class writer extends Result {}
+    public Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> Routing_Algo1(Graph<MyNode, MyEdge> G,ArrayList<MySFC> S,int Q,int num){
         /**クラスの宣言*/
         OPT opt = new OPT();
         /**各変数の初期化*/
@@ -33,6 +35,9 @@ public class Algorithm_Based_MECF_sort extends Value{
         });
         /**残容量リストの作成*/
         for(MyEdge e:G.getEdges()) r_e2.put(e,Value.r_e.get(e));
+        /**グラフの可視化*/
+        writer rw = new writer();
+        rw.graph_writer(G,r_e2,num,S.size());
         /**パスの選定*/
         for(MySFC s:S){
             /**グラフのコピー（ディープコピー）*/
@@ -83,11 +88,12 @@ public class Algorithm_Based_MECF_sort extends Value{
                     }
                     i++;
                 }
-                else if(feas=="no") break;
+                rw.path_writer(G,(ArrayList)p_list,s.SFC_num,i,S.size());
             }
             if(feas=="no")break;
             else P.put(s,graph);
         }
+        rw.each_path_writer(feas,num,S.size());
         return P;
     }
     private Graph<MyNode,MyEdge> Dijkstra_Path(Graph<MyNode,MyEdge> G,List<MyEdge> p_list){

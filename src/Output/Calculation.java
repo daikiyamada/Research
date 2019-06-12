@@ -8,11 +8,15 @@ public class Calculation {
         return average;
     }
     public int median_cal(ArrayList<Integer> List){
-        int median = 0;
-        Collections.sort(List);
-        int middle = List.size()/2;
-        median = List.get(middle);
-        return median;
+        if(List.size()!=0){
+            int median = 0;
+            Collections.sort(List);
+            int middle = List.size()/2;
+            median = List.get(middle);
+            return median;
+        }
+        else return 0;
+
     }
     public double  standard_deviation_cal(ArrayList<Integer> List,double average){
         double SD = 0;
