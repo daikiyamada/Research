@@ -35,6 +35,11 @@ public class Value {
         for(MyNode n1:Value.c_n.keySet()) if(n1.Node_Num==n.Node_Num) n2 = n1;
         return n2;
     }
+    public MyNode find_node2(ArrayList<MyNode> p,MyNode n){
+        MyNode n2 = null;
+        for(MyNode now:p) if(now.Node_Num==n.Node_Num) n2 = now;
+        return n2;
+    }
     public Graph<MyNode,MyEdge> Clone_Graph(Graph<MyNode,MyEdge> path){
         /**Pathのディープコピー*/
         Collection<MyEdge> Edge_List1 = path.getEdges();

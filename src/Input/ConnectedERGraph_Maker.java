@@ -11,7 +11,7 @@ public class ConnectedERGraph_Maker {
         int Node_num = graph.getVertexCount();
         Collection<MyNode> Vertex = graph.getVertices();
         ArrayList<MyNode> vertexes = new ArrayList<>(Vertex);
-        double p = par.p;
+        double p = 0;
         int num_edge =0;
         /** ランダムに辺の作成 */
         for(int i = 0; i < Node_num-1; i++) {

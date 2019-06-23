@@ -18,7 +18,7 @@ import org.apache.commons.collections15.Transformer;
 public class Algorithm_Based_MECF extends Value{
     class OPT extends Placement_Maker {}
     class writer extends Result {}
-    public Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> Routing_Algo1(Graph<MyNode, MyEdge> G,ArrayList<MySFC> S,int Q,int num){
+    public Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> Routing_Algo(Graph<MyNode, MyEdge> G,ArrayList<MySFC> S,int num,int fn,String gn,String an){
         /**クラスの宣言*/
         OPT opt = new OPT();
         /**各変数の初期化*/
@@ -38,7 +38,7 @@ public class Algorithm_Based_MECF extends Value{
             /**グラフのコピー（ディープコピー）*/
             Graph<MyNode,MyEdge> G2 = opt.Clone_Graph(G);
             ArrayList<Graph<MyNode,MyEdge>> graph = new ArrayList<>();
-            for(int i =0;i<Q+1;i++){
+            for(int i =0;i<fn+1;i++){
                 while(true){
                     /**リソース単価を基にした最小重みパスの計算（ダイクストラ)*/
                     Transformer<MyEdge,Number> list = new Transformer<MyEdge, Number>() {
@@ -62,16 +62,16 @@ public class Algorithm_Based_MECF extends Value{
                     if(p==null) {
                         /**グラフの可視化*/
                         writer rw = new writer();
-                        rw.graph_writer(G,Value.r_e,num,S.size());
+                        rw.graph_writer(G,Value.r_e,num,S.size(),fn,gn,an);
                         for(int a=0;a<P.size();a++){
                             for(int b=0;b<P.get(S.get(a)).size();b++){
                                 ArrayList<MyEdge> p_list2 = new ArrayList<>(P.get(S.get(a)).get(b).getEdges());
-                                rw.path_writer(G,p_list2,S.get(a).SFC_num,i,S.size());
+                                rw.path_writer(G,p_list2,S.get(a).SFC_num,i,S.size(),fn,gn,an);
                             }
                         }
                         for(int a=0;a<i;a++){
                             ArrayList<MyEdge> p_list2 = new ArrayList<>(graph.get(a).getEdges());
-                            rw.path_writer(G,p_list2,s.SFC_num,i,S.size());
+                            rw.path_writer(G,p_list2,s.SFC_num,i,S.size(),fn,gn,an);
                         }
                         Value.cost_link=0;
                         break whole;
@@ -113,7 +113,6 @@ public class Algorithm_Based_MECF extends Value{
             }
             P.put(s,graph);
         }
-    //        rw.each_path_writer(feas,num,S.size());
         return P;
     }
     private Graph<MyNode,MyEdge> Dijkstra_Path(Graph<MyNode,MyEdge> G,List<MyEdge> p_list){
@@ -141,7 +140,6 @@ public class Algorithm_Based_MECF extends Value{
         for(MyEdge e:min_edge_list) G.removeEdge(e);
         return G;
     }
-
     private MyNode find_Graph(Graph<MyNode,MyEdge> G,MyNode n){
         MyNode n2 = null;
         for(MyNode n3:G.getVertices()){

@@ -18,10 +18,10 @@ import edu.uci.ics.jung.graph.util.Pair;
 
 public class Result {
     /**結果の出力や分析のためのクラス*/
-    public void write_algo1(){
+    public void write_algo1(int num,String graph,String algo){
         Parameter par = new Parameter();
         String Path = new String();
-        Path = par.path+par.file_name+par.path_algo+par.placement_algo+"result.csv";
+        Path = par.path+graph+algo+"fn"+num+"result.csv";
         File file = new File(Path);
         PrintWriter pw;
         try {
@@ -47,10 +47,10 @@ public class Result {
             return;
         }
     }
-    public void write_algo(int sfc_num,double node_cost,double link_cost ,int medeian_node,int median_link,double std_node,double std_link,int error_num,int error_num2,int error_num3,long time){
+    public void write_algo(int sfc_num,double node_cost,double link_cost ,int medeian_node,int median_link,double std_node,double std_link,int error_num,int error_num2,int error_num3,long time,int fn,String graph,String algo){
         Parameter par = new Parameter();
         String Path = new String();
-        Path = par.path+par.file_name+par.path_algo+par.placement_algo+"result.csv";
+        Path = par.path+graph+algo+"fn"+fn+"result.csv";
         File file = new File(Path);
         PrintWriter pw;
         try {
@@ -76,10 +76,10 @@ public class Result {
             return;
         }
     }
-    public void each_placement_writer(String yn,int num,int sfc_num){
+    public void each_placement_writer(String yn,int num,int sfc_num,int fn,String graph,String algo){
         Parameter par = new Parameter();
         String Path = new String();
-        Path = par.path+par.file_name+par.path_algo+par.placement_algo+"SFC"+sfc_num+"placement2.csv";
+        Path = par.path+graph+algo+"fn"+fn+"SFC"+sfc_num+"placement2.csv";
         File file = new File(Path);
         try {
             FileWriter fw = new FileWriter(file, true);
@@ -90,10 +90,10 @@ public class Result {
             System.out.println("ファイルの出力に失敗しました5");
         }
     }
-    public void placement_writer_times(int num,int sfc_num){
+    public void placement_writer_times(int num,int sfc_num,int fn,String graph,String algo){
         Parameter par = new Parameter();
         String Path = new String();
-        Path = par.path+par.file_name+par.path_algo+par.placement_algo+"SFC"+sfc_num+"placement.csv";
+        Path = par.path+graph+algo+"fn"+fn+"SFC"+sfc_num+"placement.csv";
         File file = new File(Path);
         try {
             FileWriter fw = new FileWriter(file, true);
@@ -105,10 +105,10 @@ public class Result {
             System.out.println("ファイルの出力に失敗しました4");
         }
     }
-    public void placement_writer(Graph<MyNode,MyEdge> Path,Map<MyNode,Integer> R,Map<MyVNF,MyNode> List,ArrayList<MyVNF> VNF_List,int sfc_num,int r_num,int sfc){
+    public void placement_writer(Map<MyVNF,MyNode> List,ArrayList<MyVNF> VNF_List,int sfc_num,int r_num,int sfc,int fn,String graph,String algo){
         Parameter par = new Parameter();
         String file_Path = new String();
-        file_Path = par.path+par.file_name+par.path_algo+par.placement_algo+"SFC"+sfc+"placement.csv";
+        file_Path = par.path+graph+algo+"fn"+fn+"SFC"+sfc+"placement.csv";
         File file = new File(file_Path);
 
         try {
@@ -124,10 +124,10 @@ public class Result {
             System.out.println("ファイルの出力に失敗しました0");
         }
     }
-    public void graph_writer(Graph<MyNode,MyEdge> graph,Map<MyEdge,Integer> R,int num,int sfc_num){
+    public void graph_writer(Graph<MyNode,MyEdge> graph,Map<MyEdge,Integer> R,int num,int sfc_num,int fn,String g,String algo){
         Parameter par = new Parameter();
         String Path = new String();
-        Path = par.path+par.file_name+par.path_algo+par.placement_algo+"SFC"+sfc_num+"path.csv";
+        Path = par.path+g+algo+"fn"+fn+"SFC"+sfc_num+"path.csv";
         File file = new File(Path);
 
         try {
@@ -161,10 +161,10 @@ public class Result {
         }
 
     }
-    public void path_writer(Graph<MyNode,MyEdge> G,ArrayList<MyEdge> path,int num,int num2,int sfc_num) {
+    public void path_writer(Graph<MyNode,MyEdge> G,ArrayList<MyEdge> path,int num,int num2,int sfc_num,int fn,String graph,String algo) {
         Parameter par = new Parameter();
         String Path = new String();
-        Path = par.path + par.file_name + par.path_algo + par.placement_algo  +"SFC"+sfc_num+ "path.csv";
+        Path = par.path + graph + algo + "fn"+fn+"SFC"+sfc_num+ "path.csv";
         File file = new File(Path);
         PrintWriter pw;
         try {
@@ -185,20 +185,7 @@ public class Result {
         }
 
     }
-    public void each_path_writer(String yn,int num,int sfc_num){
-        Parameter par = new Parameter();
-        String Path = new String();
-        Path = par.path+par.file_name+par.path_algo+par.placement_algo+"SFC"+sfc_num+"path2.csv";
-        File file = new File(Path);
-        try {
-            FileWriter fw = new FileWriter(file, true);
-            PrintWriter pw = new PrintWriter(fw);
-            pw.println(num+"回目"+","+yn);
-            pw.close();
-        } catch(IOException ex){
-            System.out.println("ファイルの出力に失敗しました3");
-        }
-    }
+
     private MyEdge find_edge(Graph<MyNode,MyEdge> G,MyEdge e){
         MyEdge e2 =null;
         for(MyEdge e1:G.getEdges()) if(e1.Edge_ID==e.Edge_ID) e2 = e1;
