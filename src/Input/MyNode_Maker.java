@@ -25,10 +25,12 @@ public class MyNode_Maker  extends Value{
         /**サービスノードの構成*/
         for(int a=0;a<par.servicenode;a++){
             /**サービスノードの容量決定（最低でも３０個配置できるように設定）*/
-            int r = rnd.nextInt(100)%8;
-            int resource = par.node_resource+100*r;
-            int p = rnd.nextInt(3)-1;
-            int cost = resource/100 + p;
+            int r = rnd.nextInt(3);
+            int resource = par.node_resource+r*100;
+            /***/
+            //int p = rnd.nextInt(3)-1;
+            //int cost = resource/100 + p;
+            int cost = rnd.nextInt(par.link_cost_max-par.link_cost_min)+par.link_cost_min;
             MyNode s = new MyNode("s",num_list.get(0));
             node_resource(s,resource);
             node_cost(s,cost);

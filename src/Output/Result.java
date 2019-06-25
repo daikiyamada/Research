@@ -47,6 +47,28 @@ public class Result {
             return;
         }
     }
+    public void write_each_result(int node_cost,int link_cost,String graph,String algo,int num,int SFC_num,int edge_num){
+        Parameter par = new Parameter();
+        String Path = new String();
+        Path = par.path+graph+algo+"fn"+num+"SFC_"+SFC_num+"each_result.csv";
+        File file = new File(Path);
+        PrintWriter pw;
+        try {
+            FileWriter fw = new FileWriter(file, true);
+            pw = new PrintWriter(fw);
+            /**結果をcsvファイルに出力*/
+            /**SFC数の出力*/
+            pw.print(node_cost+",");
+            pw.print(link_cost+",");
+            pw.println(edge_num);
+
+            pw.close();
+        } catch(IOException ex){
+            System.out.println("ファイルの出力に失敗しました");
+            return;
+        }
+
+    }
     public void write_algo(int sfc_num,double node_cost,double link_cost ,int medeian_node,int median_link,double std_node,double std_link,int error_num,int error_num2,int error_num3,long time,int fn,String graph,String algo){
         Parameter par = new Parameter();
         String Path = new String();

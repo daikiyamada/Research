@@ -1,6 +1,6 @@
 package Executer;
-
 import Input.*;
+import Output.Visualization;
 import SFC.*;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
@@ -10,14 +10,14 @@ public class Executer {
     public void Executer(String gn,String algo_name,int graph_type,int path_algo_num,int place_algo_num,double p) {
         Parameter par = new Parameter();
         /**障害数の設定*/
-        for (int i = 1; i <= par.failure_num; i++) {
+        for (int i = par.failure_num_min; i <= par.failure_num_max; i++) {
             /**結果の表項目を作成*/
             Output.Result out = new Output.Result();
             out.write_algo1(i, gn, algo_name);
             ArrayList<Integer> cl_List = new ArrayList<>();
             ArrayList<Integer> nl_List = new ArrayList<>();
             /**サービス数の設定*/
-            for (int j = 1; j <= par.SFC_num; j++) {
+            for (int j = par.SFC_num_min; j <= par.SFC_num_max; j++) {
                 /**エラー数計算のための変数*/
                 int error_num = 0;
                 int error_num2 = 0;
@@ -51,6 +51,7 @@ public class Executer {
                     Input.Lattice_GraphMaker lat = new Input.Lattice_GraphMaker();
                     if (graph_type ==1) graph = nws.NWS_GraphMaker(graph, p);
                     else if (graph_type == 2) graph = lat.LatticeGraph_Maker(graph);
+                   // Visualization.Layout_Graph(graph);
                     /**VNF_Listの構成*/
                     SFC.VNF_Maker vnf = new SFC.VNF_Maker();
                     ArrayList<MyVNF> VNF_List = vnf.VNF_Maker();
@@ -81,6 +82,7 @@ public class Executer {
                     if (Value.cost_node != 0 && Value.cost_link != 0) {
                         cl_List.add(Value.cost_link);
                         nl_List.add(Value.cost_node);
+                        out.write_each_result(Value.cost_node,Value.cost_link,gn,algo_name,i,S.size(),graph.getEdgeCount());
                     }
                     node2.clear();
                     S.clear();

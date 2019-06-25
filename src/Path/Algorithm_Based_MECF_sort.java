@@ -63,8 +63,8 @@ public class Algorithm_Based_MECF_sort extends Value {
                      if(p==null) {
                          /**グラフの可視化*/
                          writer rw = new writer();
-                         rw.graph_writer(G,Value.r_e,num,S.size(),fn,gn,an);
-                         for(int a=0;a<P.size();a++){
+                         //rw.graph_writer(G,Value.r_e,num,S.size(),fn,gn,an);
+                         /*for(int a=0;a<P.size();a++){
                              for(int b=0;b<P.get(S.get(a)).size();b++){
                                  ArrayList<MyEdge> p_list2 = new ArrayList<>(P.get(S.get(a)).get(b).getEdges());
                                  rw.path_writer(G,p_list2,S.get(a).SFC_num,i,S.size(),fn,gn,an);
@@ -73,7 +73,7 @@ public class Algorithm_Based_MECF_sort extends Value {
                          for(int a=0;a<i;a++){
                              ArrayList<MyEdge> p_list2 = new ArrayList<>(graph.get(a).getEdges());
                              rw.path_writer(G,p_list2,s.SFC_num,i,S.size(),fn,gn,an);
-                         }
+                         }*/
                          Value.cost_link=0;
                          break whole;
                      }

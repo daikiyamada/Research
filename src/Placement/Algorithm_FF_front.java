@@ -22,8 +22,8 @@ public class Algorithm_FF_front extends Value{
             /**残容量リストの作成*/
             for(MyNode n:G.getVertices()) r_n2.put(find_node(n),Value.r_n.get(n));
             /**何回目の配置なのか出力*/
-            result rw = new result();
-            rw.placement_writer_times(num,S.size(),Q,gn,an);
+            //result rw = new result();
+           // rw.placement_writer_times(num,S.size(),Q,gn,an);
             /**配置開始*/
             whole:for(MySFC s:S){
                 for(int i=0;i<Q+1;i++){
@@ -60,7 +60,7 @@ public class Algorithm_FF_front extends Value{
                         }
                     }
                     /**結果の出力*/
-                    rw.placement_writer(List,U,s.SFC_num,i,S.size(),Q,gn,an);
+                   // rw.placement_writer(List,U,s.SFC_num,i,S.size(),Q,gn,an);
                 }
             }
         }
