@@ -9,22 +9,20 @@ import SFC.MyVNF;
 import edu.uci.ics.jung.graph.Graph;
 import Output.Result;
 public class Algorithm_Based_GAP extends Value {
-    public void Placement_Algo(Graph<MyNode, MyEdge> G,ArrayList<MySFC> S,Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> P,int Q,int num,String gn,String an){
+    public int Placement_Algo(Graph<MyNode, MyEdge> G,ArrayList<MySFC> S,Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> P,int Q){
         Value.cost_node = 0;
+        int node_num=0;
         Map<MyNode,Integer> r_n2 = new HashMap<>();
         String feas = "yes";
+        Set<MyNode> Node_List = new HashSet<>();
         /**残容量リストの作成*/
         for(MyNode n:G.getVertices()) r_n2.put(find_node(n),Value.r_n.get(n));
-        /**何回目の配置なのか出力*/
-       // result rw = new result();
-        //rw.placement_writer_times(num,S.size(),Q,gn,an);
         /**配置開始*/
         whole:for(MySFC s:S){
             for(int i=0;i<Q+1;i++){
                 ArrayList<MyNode> V = new ArrayList<>(P.get(s).get(i).getVertices());
                 ArrayList<MyVNF> U = s.VNF;
                 Map<MyVNF,MyNode> List = new HashMap<>();
-                feas = "yes";
                     for(MyVNF f:U){
                         /**該当VNFを配置できるノードの選別*/
                         ArrayList<MyNode> Fk = new ArrayList<>();
@@ -34,6 +32,7 @@ public class Algorithm_Based_GAP extends Value {
                         }
                         if(Fk.size()==0){
                             feas = "no";
+                            Value.cost_node = 0;
                             break whole;
                         }
                         else {
@@ -49,6 +48,8 @@ public class Algorithm_Based_GAP extends Value {
                             }
                             /**容量が残っているノードに対しての配置*/
                             List.put(f, min_node);
+                            Node_List.add(min_node);
+                            node_num++;
                             /**コストの計算*/
                             Value.cost_node += f.cap_VNF * c_n.get(find_node(min_node));
                             /**容量リストの書き換え*/
@@ -60,11 +61,11 @@ public class Algorithm_Based_GAP extends Value {
                             }
                         }
                     }
-                    /**結果の出力*/
-                    //rw.placement_writer(List,U,s.SFC_num,i,S.size(),Q,gn,an);
             }
         }
         if(feas=="no") Value.cost_node=0;
-        //rw.each_placement_writer(feas,num,S.size(),Q,gn,an);
+        Value value = new Value();
+        value.node_Utilization(G,Node_List,r_n2);
+        return node_num;
     }
 }

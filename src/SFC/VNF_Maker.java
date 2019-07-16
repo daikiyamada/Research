@@ -10,7 +10,7 @@ public class VNF_Maker {
         ArrayList<MyVNF> VNFtype_List = new ArrayList<>();
         /**VNFの決定*/
         for(int a=0;a<par.VNF_num;a++){
-            int vnf_cap = rnd.nextInt(par.VNF_resource_max-par.VNF_resource_min)+par.VNF_resource_min;
+            int vnf_cap = rnd.nextInt(par.VNF_resource_max-par.VNF_resource_min+1)+par.VNF_resource_min;
             MyVNF F = new MyVNF(a,vnf_cap);
             VNFtype_List.add(F);
         }

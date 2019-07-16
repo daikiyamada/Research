@@ -7,7 +7,6 @@ import java.util.*;
 import Input.*;
 import Output.Result;
 import SFC.MySFC;
-import SFC.MyVNF;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraDistance;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.Graph;
@@ -15,15 +14,17 @@ import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 import Placement.Placement_Maker;
 import edu.uci.ics.jung.graph.util.Pair;
 import org.apache.commons.collections15.Transformer;
+
 public class Algorithm_Based_MECF extends Value{
     class OPT extends Placement_Maker {}
     class writer extends Result {}
-    public Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> Routing_Algo(Graph<MyNode, MyEdge> G,ArrayList<MySFC> S,int num,int fn,String gn,String an){
+    public Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> Routing_Algo(Graph<MyNode, MyEdge> G,ArrayList<MySFC> S,int fn){
         /**クラスの宣言*/
         OPT opt = new OPT();
         /**各変数の初期化*/
         Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> P = new HashMap<>();
         Map<MyEdge,Integer> r_e2 = new HashMap<>();
+        Set<MyEdge> Edge_List = new HashSet<>();
         /**SFC集合をr_sに基づいて降順にソートする*/
         Collections.sort(S, new Comparator<MySFC>() {
             @Override
@@ -61,19 +62,6 @@ public class Algorithm_Based_MECF extends Value{
                     else p=null;
                     /**パスがない場合の対処法*/
                     if(p==null) {
-                        /**グラフの可視化*/
-                        //writer rw = new writer();
-                        //rw.graph_writer(G,Value.r_e,num,S.size(),fn,gn,an);
-                        /*for(int a=0;a<P.size();a++){
-                            for(int b=0;b<P.get(S.get(a)).size();b++){
-                                ArrayList<MyEdge> p_list2 = new ArrayList<>(P.get(S.get(a)).get(b).getEdges());
-                                rw.path_writer(G,p_list2,S.get(a).SFC_num,i,S.size(),fn,gn,an);
-                            }
-                        }
-                        for(int a=0;a<i;a++){
-                            ArrayList<MyEdge> p_list2 = new ArrayList<>(graph.get(a).getEdges());
-                            rw.path_writer(G,p_list2,s.SFC_num,i,S.size(),fn,gn,an);
-                        }*/
                         Value.cost_link=0;
                         break whole;
                     }
@@ -94,6 +82,7 @@ public class Algorithm_Based_MECF extends Value{
                         for(MyEdge e:p.getEdges()){
                             MyEdge e2 = find_edge2(G,e);
                             r_e2.replace(e2,r_e2.get(e2) - s.Demand_Link_Resource);
+                            Edge_List.add(e2);
                         }
                         /**G'からパスに所属する頂点とそれらに接続する辺を取り除く*/
                         G2 = Remover_Graph(G2,p,s);
@@ -114,6 +103,9 @@ public class Algorithm_Based_MECF extends Value{
             }
             P.put(s,graph);
         }
+        if(P.size()!=S.size()) Value.cost_link=0;
+        Value val = new Value();
+        val.Edge_Utilization(G,Edge_List,r_e2);
         return P;
     }
     private Graph<MyNode,MyEdge> Dijkstra_Path(Graph<MyNode,MyEdge> G,List<MyEdge> p_list){

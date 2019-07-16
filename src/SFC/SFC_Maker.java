@@ -16,7 +16,7 @@ public class SFC_Maker {
             MyNode source = t_list.get(0);
             MyNode sink = t_list.get(1);
             /**要求リンクリソース*/
-            int resource = rnd.nextInt(par.SFC_resource_max-par.SFC_resource_min)+par.SFC_resource_min;
+            int resource = rnd.nextInt(par.SFC_resource_max-par.SFC_resource_min+1)+par.SFC_resource_min;
             /**VNF集合の決定*/
             ArrayList<MyVNF> VNF = new ArrayList<>();
             Collections.shuffle(VNF_List);
