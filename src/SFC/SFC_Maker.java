@@ -24,7 +24,7 @@ public class SFC_Maker {
             Collections.sort(VNF, new Comparator<MyVNF>() {
                 @Override
                 public int compare(MyVNF o1, MyVNF o2) {
-                    return o1.VNF_id<o2.VNF_id ? -1:1;
+                    return o1.VNF_id<=o2.VNF_id ? -1:1;
                 }
             });
             /**SFCの決定*/

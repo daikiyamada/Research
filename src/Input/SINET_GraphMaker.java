@@ -3,7 +3,6 @@ package Input;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 
-import java.util.*;
 public class SINET_GraphMaker {
     public Graph<MyNode,MyEdge> Sinet_graphmaker(Graph<MyNode,MyEdge> G){
         Graph<MyNode,MyEdge> Graph = new UndirectedSparseGraph<>();

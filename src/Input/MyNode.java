@@ -1,8 +1,5 @@
 package Input;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 public class MyNode {
     public String Node_ID;
     public int Node_Num;

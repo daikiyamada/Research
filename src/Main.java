@@ -1,10 +1,8 @@
-import SFC.*;
 import Parameter.Parameter;
 import Executer.*;
 public class Main {
-    static class SFC extends SFC_Maker{}
-    static class Par extends Parameter{}
-    static class exe extends  Executer{}
+    private static class Par extends Parameter{}
+    private static class exe extends  Executer{}
     public static void main(String[] args) {
         Par par = new Par();
         /**tim sortをbubble sortに変更*/

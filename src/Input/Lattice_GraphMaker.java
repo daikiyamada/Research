@@ -1,7 +1,6 @@
 package Input;
 
 import Parameter.Parameter;
-import SFC.MySFC;
 import edu.uci.ics.jung.graph.Graph;
 
 import java.util.*;
@@ -24,14 +23,14 @@ public class Lattice_GraphMaker extends Value{
             int cost =0;
             if(cost_type==1) cost = rnd.nextInt(par.link_cost_max-par.link_cost_min+1)+par.link_cost_min;
             else if(cost_type==2){
-                cost = (capacity/100)%10;
+                cost = (capacity/100)-5;
                 if(cost==0) cost = 10;
             }
             else if(cost_type==3){
-                int r = (capacity/100)%10;
+                int r = (capacity/100)-5;
                 if(r==0) cost = 1;
                 else{
-                    cost = par.link_cost_max-r;
+                    cost = par.link_cost_max+1-r;
                 }
             }
             MyEdge e = new MyEdge(num_edge);
@@ -57,27 +56,27 @@ public class Lattice_GraphMaker extends Value{
                 int cost1 =0;
                 if(cost_type==1) cost1 = rnd.nextInt(par.link_cost_max-par.link_cost_min+1)+par.link_cost_min;
                 else if(cost_type==2){
-                    cost1 = (capacity1/100)%10;
+                    cost1 = (capacity1/100)-5;
                     if(cost1==0) cost1 = 10;
                 }
                 else if(cost_type==3){
-                    int r = (capacity1/100)%10;
+                    int r = (capacity1/100)-5;
                     if(r==0) cost1 = 1;
                     else{
-                        cost1 = par.link_cost_max-r;
+                        cost1 = par.link_cost_max+1-r;
                     }
                 }
                 int cost2 =0;
                 if(cost_type==1) cost2 = rnd.nextInt(par.link_cost_max-par.link_cost_min+1)+par.link_cost_min;
                 else if(cost_type==2){
-                    cost2 = (capacity2/100)%10;
+                    cost2 = (capacity2/100)-5;
                     if(cost2==0) cost2 = 10;
                 }
                 else if(cost_type==3){
-                    int r = (capacity2/100)%10;
+                    int r = (capacity2/100)-5;
                     if(r==0) cost2 = 1;
                     else{
-                        cost2 = par.link_cost_max-r;
+                        cost2 = par.link_cost_max+1-r;
                     }
                 }
                 MyEdge e = new MyEdge(num_edge);
@@ -96,14 +95,14 @@ public class Lattice_GraphMaker extends Value{
             int cost =0;
             if(cost_type==1) cost = rnd.nextInt(par.link_cost_max-par.link_cost_min+1)+par.link_cost_min;
             else if(cost_type==2){
-                cost = (capacity/100)%10;
+                cost = (capacity/100)-5;
                 if(cost==0) cost = 10;
             }
             else if(cost_type==3){
-                int r = (capacity/100)%10;
+                int r = (capacity/100)-5;
                 if(r==0) cost = 1;
                 else{
-                    cost = par.link_cost_max-r;
+                    cost = par.link_cost_max+1-r;
                 }
             }
             MyEdge e = new MyEdge(num_edge);

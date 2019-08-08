@@ -4,15 +4,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
-
-import Input.MyEdge;
-import Input.MyNode;
-import Input.Value;
 import Parameter.Parameter;
-import SFC.MySFC;
-import SFC.MyVNF;
-import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.graph.util.Pair;
+
 
 public class Result {
     /**結果の出力や分析のためのクラス*/
@@ -104,9 +97,9 @@ public class Result {
     public void edge_info_writer(Map<Integer,Double> Ave1,Map<Integer,Double> Std1,Map<Integer,Double> Ave2,Map<Integer,Double> Std2,String graph,String algo,int fn,int sfc_num,int cost_type){
         Parameter par = new Parameter();
         String Path = new String();
-        if(cost_type==1) Path = par.path1 + graph + algo + "fn"+fn+"SFC"+sfc_num+"_"+par.cost_type2[cost_type-1]+ "_辺情報.csv";
-        else if(cost_type==2) Path = par.path2 + graph + algo + "fn"+fn+"SFC"+sfc_num+"_"+par.cost_type2[cost_type-1]+ "_辺情報.csv";
-        else if(cost_type==3) Path = par.path3 + graph + algo + "fn"+fn+"SFC"+sfc_num+"_"+par.cost_type2[cost_type-1]+ "_辺情報.csv";
+        if(cost_type==1) Path = par.path1 + graph + algo + "fn"+fn+"_"+par.cost_type2[cost_type-1]+ "_辺情報.csv";
+        else if(cost_type==2) Path = par.path2 + graph + algo + "fn"+fn+"_"+par.cost_type2[cost_type-1]+ "_辺情報.csv";
+        else if(cost_type==3) Path = par.path3 + graph + algo + "fn"+fn+"_"+par.cost_type2[cost_type-1]+ "_辺情報.csv";
         File file = new File(Path);
         PrintWriter pw;
         try{
@@ -134,9 +127,9 @@ public class Result {
     public void edge_utilization_writer(Map<Integer,Double> Ave,Map<Integer,Double> Std,String graph,String algo,int fn,int sfc_num,int cost_type){
         Parameter par = new Parameter();
         String Path = new String();
-        if(cost_type==1)Path = par.path1 + graph + algo + "fn"+fn+"SFC"+sfc_num+"_"+par.cost_type2[cost_type-1]+ "_辺使用率.csv";
-        else if(cost_type==2)Path = par.path2 + graph + algo + "fn"+fn+"SFC"+sfc_num+"_"+par.cost_type2[cost_type-1]+ "_辺使用率.csv";
-        else if(cost_type==3)Path = par.path3 + graph + algo + "fn"+fn+"SFC"+sfc_num+"_"+par.cost_type2[cost_type-1]+ "_辺使用率.csv";
+        if(cost_type==1)Path = par.path1 + graph + algo + "fn"+fn+"_"+par.cost_type2[cost_type-1]+ "_辺使用率.csv";
+        else if(cost_type==2)Path = par.path2 + graph + algo + "fn"+fn+"_"+par.cost_type2[cost_type-1]+ "_辺使用率.csv";
+        else if(cost_type==3)Path = par.path3 + graph + algo + "fn"+fn+"_"+par.cost_type2[cost_type-1]+ "_辺使用率.csv";
         File file = new File(Path);
         PrintWriter pw;
         try{
@@ -159,9 +152,9 @@ public class Result {
     public void node_info_writer(Map<Integer,Double> Ave1,Map<Integer,Double> Std1,Map<Integer,Double> Ave2,Map<Integer,Double> Std2,String graph,String algo,int fn,int sfc_num,int cost_type){
         Parameter par = new Parameter();
         String Path = new String();
-        if(cost_type==1) Path = par.path1 + graph + algo + "fn"+fn+"SFC"+sfc_num+"_"+par.cost_type2[cost_type-1]+ "_頂点情報.csv";
-        else if(cost_type==2) Path = par.path2 + graph + algo + "fn"+fn+"SFC"+sfc_num+"_"+par.cost_type2[cost_type-1]+ "_頂点情報.csv";
-        else if(cost_type==3) Path = par.path3 + graph + algo + "fn"+fn+"SFC"+sfc_num+"_"+par.cost_type2[cost_type-1]+ "_頂点情報.csv";
+        if(cost_type==1) Path = par.path1 + graph + algo + "fn"+fn+"_"+par.cost_type2[cost_type-1]+ "_頂点情報.csv";
+        else if(cost_type==2) Path = par.path2 + graph + algo + "fn"+fn+"_"+par.cost_type2[cost_type-1]+ "_頂点情報.csv";
+        else if(cost_type==3) Path = par.path3 + graph + algo + "fn"+fn+"_"+par.cost_type2[cost_type-1]+ "_頂点情報.csv";
         File file = new File(Path);
         PrintWriter pw;
         try{
@@ -185,13 +178,12 @@ public class Result {
         }
 
     }
-
     public void node_utilization_writer(Map<Integer,Double> Ave,Map<Integer,Double> Std,String graph,String algo,int fn,int sfc_num,int cost_type){
         Parameter par = new Parameter();
         String Path = new String();
-        if(cost_type==1) Path = par.path1 + graph + algo + "fn"+fn+"SFC"+sfc_num+"_"+par.cost_type2[cost_type-1]+ "_頂点使用率.csv";
-        else if(cost_type==2) Path = par.path2 + graph + algo + "fn"+fn+"SFC"+sfc_num+"_"+par.cost_type2[cost_type-1]+ "_頂点使用率.csv";
-        else if(cost_type==3) Path = par.path3 + graph + algo + "fn"+fn+"SFC"+sfc_num+"_"+par.cost_type2[cost_type-1]+ "_頂点使用率.csv";
+        if(cost_type==1) Path = par.path1 + graph + algo + "fn"+fn+"_"+par.cost_type2[cost_type-1]+ "_頂点使用率.csv";
+        else if(cost_type==2) Path = par.path2 + graph + algo + "fn"+fn+"_"+par.cost_type2[cost_type-1]+ "_頂点使用率.csv";
+        else if(cost_type==3) Path = par.path3 + graph + algo + "fn"+fn+"_"+par.cost_type2[cost_type-1]+ "_頂点使用率.csv";
         File file = new File(Path);
         PrintWriter pw;
         try{
@@ -214,9 +206,9 @@ public class Result {
     public void path_length_writer(double ave,double std,String graph,String algo,int fn,int sfc_num,int cost_type){
         Parameter par = new Parameter();
         String Path = new String();
-        if(cost_type==1)Path = par.path1 + graph + algo + "fn"+fn+"SFC"+sfc_num+"_"+par.cost_type2[cost_type-1]+ "_パスの長さ.csv";
-        else if(cost_type==2)Path = par.path2 + graph + algo + "fn"+fn+"SFC"+sfc_num+"_"+par.cost_type2[cost_type-1]+ "_パスの長さ.csv";
-        else if(cost_type==3)Path = par.path3 + graph + algo + "fn"+fn+"SFC"+sfc_num+"_"+par.cost_type2[cost_type-1]+ "_パスの長さ.csv";
+        if(cost_type==1)Path = par.path1 + graph + algo + "fn"+fn+"_"+par.cost_type2[cost_type-1]+ "_パスの長さ.csv";
+        else if(cost_type==2)Path = par.path2 + graph + algo + "fn"+fn+"_"+par.cost_type2[cost_type-1]+ "_パスの長さ.csv";
+        else if(cost_type==3)Path = par.path3 + graph + algo + "fn"+fn+"_"+par.cost_type2[cost_type-1]+ "_パスの長さ.csv";
         File file = new File(Path);
         PrintWriter pw;
         try{

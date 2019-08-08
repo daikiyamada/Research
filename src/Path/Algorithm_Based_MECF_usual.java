@@ -3,11 +3,8 @@ package Path;
 import Input.MyEdge;
 import Input.MyNode;
 import java.util.*;
-
 import Input.*;
-import Output.Result;
 import SFC.MySFC;
-import SFC.MyVNF;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraDistance;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.Graph;
@@ -16,12 +13,10 @@ import Placement.Placement_Maker;
 import edu.uci.ics.jung.graph.util.Pair;
 import org.apache.commons.collections15.Transformer;
 public class Algorithm_Based_MECF_usual extends Value{
-    class OPT extends Placement_Maker {}
-    class writer extends Result {}
+    private class OPT extends Placement_Maker {}
     public Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> Routing_Algo(Graph<MyNode, MyEdge> G,ArrayList<MySFC> S,int fn){
         /**クラスの宣言*/
         OPT opt = new OPT();
-        writer rw = new writer();
         /**各変数の初期化*/
         Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> P = new HashMap<>();
         Map<MyEdge,Integer> r_e2 = new HashMap<>();
@@ -43,12 +38,12 @@ public class Algorithm_Based_MECF_usual extends Value{
                         }
                     };
                     Graph<MyNode,MyEdge> p = new UndirectedSparseGraph<>();
-                    DijkstraDistance dd = new DijkstraDistance(G2);
+                    DijkstraDistance<MyNode,MyEdge> dd = new DijkstraDistance<>(G2);
                     MyNode source = find_Graph(G2,s.source);
                     MyNode sink = find_Graph(G2,s.sink);
                     if(dd.getDistance(source,sink)!=null) {
                         List<MyEdge> p_list = new ArrayList<>();
-                        DijkstraShortestPath ds = new DijkstraShortestPath(G2,list);
+                        DijkstraShortestPath<MyNode,MyEdge> ds = new DijkstraShortestPath<>(G2,list);
                         p_list = ds.getPath(source, sink);
                         p = Dijkstra_Path(G2, p_list);
                     }
@@ -79,7 +74,7 @@ public class Algorithm_Based_MECF_usual extends Value{
                             Edge_List.add(e2);
                         }
                         /**G'からパスに所属する頂点とそれらに接続する辺を取り除く*/
-                        G2 = Remover_Graph(G2,p,s);
+                        Remover_Graph(G2,p,s);
                         graph.add(p);
                         /**c_linkの算出*/
                         for(MyEdge e:p.getEdges()){
@@ -90,7 +85,7 @@ public class Algorithm_Based_MECF_usual extends Value{
                     }
                     else if(r<s.Demand_Link_Resource){
                         /**キャパシティが十分にない場合、その辺を削除する*/
-                        G2 = Remover_Edge(G2,min_edge_list);
+                        Remover_Edge(G2,min_edge_list);
                     }
                     else break whole;
                 }
@@ -98,8 +93,10 @@ public class Algorithm_Based_MECF_usual extends Value{
             P.put(s,graph);
         }
         if(P.size()!=S.size()) Value.cost_link=0;
-        Value val = new Value();
-        val.Edge_Utilization(G,Edge_List,r_e2);
+        if(Value.cost_link!=0){
+            Value val = new Value();
+            val.Edge_Utilization(G,Edge_List,r_e2);
+        }
         return P;
     }
     private Graph<MyNode,MyEdge> Dijkstra_Path(Graph<MyNode,MyEdge> G,List<MyEdge> p_list){
@@ -108,7 +105,7 @@ public class Algorithm_Based_MECF_usual extends Value{
         for(MyEdge e:p_list){
             Pair<MyNode> node = G.getEndpoints(e);
             for(MyNode n:node){
-                if(p.containsVertex(n)!=true){
+                if(!p.containsVertex(n)){
                     p.addVertex(n);
                 }
             }
@@ -116,18 +113,17 @@ public class Algorithm_Based_MECF_usual extends Value{
         }
         return p;
     }
-    private Graph<MyNode,MyEdge> Remover_Graph(Graph<MyNode,MyEdge> G,Graph<MyNode,MyEdge> p,MySFC s){
+    private void Remover_Graph(Graph<MyNode,MyEdge> G,Graph<MyNode,MyEdge> p,MySFC s){
         for(MyNode n:p.getVertices()){
             MyNode n2 = find_Graph(G,n);
             if(s.source.Node_Num!=n2.Node_Num && s.sink.Node_Num!=n2.Node_Num) G.removeVertex(n2);
         }
-        return G;
-    }
-    private Graph<MyNode,MyEdge> Remover_Edge(Graph<MyNode,MyEdge> G,ArrayList<MyEdge> min_edge_list){
-        for(MyEdge e:min_edge_list) G.removeEdge(e);
-        return G;
-    }
 
+    }
+    private void Remover_Edge(Graph<MyNode,MyEdge> G,ArrayList<MyEdge> min_edge_list){
+        for(MyEdge e:min_edge_list) G.removeEdge(e);
+
+    }
     private MyNode find_Graph(Graph<MyNode,MyEdge> G,MyNode n){
         MyNode n2 = null;
         for(MyNode n3:G.getVertices()){

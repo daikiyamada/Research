@@ -1,7 +1,5 @@
 package Input;
 
-import java.util.Map;
-
 public class MyEdge {
     public int Edge_ID;
 

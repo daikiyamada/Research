@@ -1,6 +1,8 @@
 package Input;
 import edu.uci.ics.jung.graph.Graph;
+import edu.uci.ics.jung.graph.SparseGraph;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
+import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.graph.util.Pair;
 import Parameter.*;
 import java.util.*;
@@ -53,11 +55,12 @@ public class Value{
         /**Pathのディープコピー*/
         Collection<MyEdge> Edge_List1 = path.getEdges();
         ArrayList<MyEdge> Edge_List = new ArrayList<>(Edge_List1);
-        Graph<MyNode,MyEdge> Path = new UndirectedSparseGraph<>();
+        Graph<MyNode,MyEdge> Path = new SparseGraph<>();
         for(int a=0;a<Edge_List.size();a++){
             MyEdge e = new MyEdge(Edge_List.get(a).Edge_ID);
             Pair<MyNode> pair = path.getEndpoints(Edge_List.get(a));
-            Path.addEdge(e,pair.getFirst(),pair.getSecond());
+            if(path.getEdgeType(Edge_List.get(a))== EdgeType.DIRECTED) Path.addEdge(e,pair.getFirst(),pair.getSecond(),EdgeType.DIRECTED);
+            else Path.addEdge(e,pair.getFirst(),pair.getSecond(),EdgeType.UNDIRECTED);
         }
         return Path;
     }
@@ -66,23 +69,27 @@ public class Value{
         Map<Integer,Double> edge_util = new HashMap<>();
         Map<Integer,Integer> count_edge = new HashMap<>();
         Map<Integer,Integer> count_sum_edge = new HashMap<>();
+        Map<Integer,Integer> count_edge_list = new HashMap<>();
         parameter par = new parameter();
         for(int i = par.link_cost_min; i<=par.link_cost_max;i++){
             edge_util.put(i,0.0);
             count_edge.put(i,0);
             count_sum_edge.put(i,0);
+            count_edge_list.put(i,0);
         }
+        /**コスト別の辺数*/
         for(MyEdge e:G.getEdges()){
             int cost = c_e.get(find_edge(e));
             count_sum_edge.replace(cost,count_sum_edge.get(cost)+1);
         }
-        /**使用された辺の計算*/
+        /**コスト別の使用辺数*/
         for(MyEdge e: Edge_List){
             int cost = c_e.get(find_edge(e));
             count_edge.replace(cost,count_edge.get(cost)+1);
-            double util = (double)r_e2.get(e)/r_e.get(e);
+            double util = 1-(double)r_e2.get(e)/r_e.get(e);
             edge_util.replace(cost,edge_util.get(cost)+util);
         }
+
         /**使用率の計算*/
         for(int i:edge_util.keySet()){
             int nun_edge = count_edge.get(i);
@@ -111,7 +118,7 @@ public class Value{
         for(MyNode n: Node_List){
             int cost = c_n.get(find_node(n));
             count_node.replace(cost,count_node.get(cost)+1);
-            double util = (double)r_n2.get(n)/r_n.get(n);
+            double util = 1-(double)r_n2.get(n)/r_n.get(n);
             node_util.replace(cost,(double)node_util.get(cost)+util);
         }
         /**使用率の計算*/

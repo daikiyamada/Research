@@ -8,9 +8,8 @@ import SFC.MyVNF;
 import edu.uci.ics.jung.graph.Graph;
 import Output.Result;
 public class Algorithm_FF_front extends Value{
-        public int Placement_FF_front(Graph<MyNode, MyEdge> G, ArrayList<MySFC> S, Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> P, int Q){
+        public void Placement_FF_front(Graph<MyNode, MyEdge> G, ArrayList<MySFC> S, Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> P, int Q){
             Value.cost_node = 0;
-            int used_node_num=0;
             Map<MyNode,Integer> r_n2 = new HashMap<>();
             Value value = new Value();
             /**SFC集合をr_sに基づいて降順にソートする*/
@@ -51,21 +50,20 @@ public class Algorithm_FF_front extends Value{
                                 r_n2.replace(find_node(node),r_n2.get(find_node(node))-f.cap_VNF);
                                 List.put(f,node);
                                 Node_List.add(node);
-                                used_node_num++;
                                 break;
                             }
                             else{
                                 /**次のノードに移動する*/
                                 Collection<MyNode> neighbor_list2 = p.getNeighbors(node);
                                 ArrayList<MyNode> neighbor_list = new ArrayList<MyNode>(neighbor_list2);
-                                for(MyNode n:neighbor_list) if(V.contains(n)==true) node = n;
+                                for(MyNode n:neighbor_list) if(V.contains(n)) node = n;
                             }
                         }
                     }
                 }
             }
-            value.node_Utilization(G,Node_List,r_n2);
-            return used_node_num;
+            if(value.cost_node!=0) value.node_Utilization(G,Node_List,r_n2);
+
         }
 }
 

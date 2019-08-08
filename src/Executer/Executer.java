@@ -1,8 +1,9 @@
 package Executer;
 import Input.*;
+import Output.Visualization;
 import SFC.*;
 import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.graph.UndirectedSparseGraph;
+import edu.uci.ics.jung.graph.SparseGraph;
 import java.util.*;
 import Parameter.*;
 public class Executer {
@@ -24,17 +25,15 @@ public class Executer {
                 int error_num3 = 0;
                 /**詳細情報のリスト*/
                 ArrayList<Double> Path_length = new ArrayList<>();
-                ArrayList<Double> Used_node_list = new ArrayList<>();
-                ArrayList<Double> service_node_list = new ArrayList<>();
                 /**途中経過表示*/
-                System.out.println(gn + algo_name + "fn_" + i + "SFC:" + j * 10 + ":start");
+                System.out.println(gn + algo_name + "SFC:" + j * 10 + ":start");
                 Date date = new Date();
                 System.out.println(date);
                 long start = System.currentTimeMillis();
                 /**実験数*/
                 for (int k = 0; k < par.exe_num; k++) {
                     /**途中経過の表示*/
-                    if (k % 500 == 0) {
+                    if (k % 100 == 0) {
                         Date date2 = new Date();
                         System.out.println(k + ":" + date2);
                     }
@@ -46,7 +45,7 @@ public class Executer {
                     Value.cost_link = 0;
                     Value.cost_node = 0;
                     /**Graphの定義*/
-                    Graph<MyNode, MyEdge> graph = new UndirectedSparseGraph<>();
+                    Graph<MyNode, MyEdge> graph = new SparseGraph<MyNode,MyEdge>();
                     /**Node作成*/
                     Input.MyNode_Maker n = new Input.MyNode_Maker();
                     graph = n.MyNode_Maker(cost_type);
@@ -67,30 +66,26 @@ public class Executer {
                     Path.Algorithm_Based_MECF al1 = new Path.Algorithm_Based_MECF();
                     Path.Algorithm_Based_MECF_sort al2 = new Path.Algorithm_Based_MECF_sort();
                     Path.Algorithm_Based_MECF_usual al3 = new Path.Algorithm_Based_MECF_usual();
+                    Path.Algorithm2 al4 = new Path.Algorithm2();
                     Map<MySFC, ArrayList<Graph<MyNode, MyEdge>>> Path_set = new HashMap<>();
                     if (path_algo_num == 1) Path_set = al1.Routing_Algo(graph, S, i);
                     else if (path_algo_num==2) Path_set = al2.Routing_Algo(graph, S,i);
                     else if (path_algo_num==3) Path_set = al3.Routing_Algo(graph, S,i);
+                    else if(path_algo_num==4) Path_set = al4.KNode_Disjoint_Path(graph,S,i);
                     /**配置アルゴリズム*/
                     Placement.Algorithm_Based_GAP alp1 = new Placement.Algorithm_Based_GAP();
                     Placement.Algorithm_FF_front alp2 = new Placement.Algorithm_FF_front();
+                    Placement.Deployment_Algorithm2 alp3 = new Placement.Deployment_Algorithm2();
                     /**パスが成功時に配置に移動*/
                     if(Value.cost_link!=0){
-                        /**詳細情報の算出*/
                         /**パスの長さ*/
                         double ave_path_length = Cal.average_path_length(Path_set,S);
                         Path_length.add(ave_path_length);
-                        int used_node_num=0;
                         /**配置アルゴリズムの実行*/
-                        if (place_algo_num == 1) used_node_num=alp1.Placement_Algo(graph, S, Path_set, i);
-                        else if (place_algo_num == 2) used_node_num=alp2.Placement_FF_front(graph, S, Path_set, i);
-                        /**サービスノード算出と平均値の算出*/
-                        double list[] = new double[2];
-                        list = Cal.average_service_node(Path_set,S,used_node_num);
-                        Used_node_list.add(list[0]);
-                        service_node_list.add(list[1]);
+                        if (place_algo_num == 1) alp1.Placement_Algo(graph, S, Path_set, i);
+                        else if (place_algo_num == 2) alp2.Placement_FF_front(graph, S, Path_set, i);
+                        else if(place_algo_num == 3) alp3.Deploy_algo2(graph,Path_set,S,i);
                     }
-
                     /**コストの計算*/
                     if (Value.cost_link == 0 || Value.cost_node == 0) error_num++;
                     if (Value.cost_link == 0) error_num2++;
@@ -120,46 +115,47 @@ public class Executer {
                 out.write_algo(j * 10, average_node, average_edge, median_node, median_edge, SD_node, SD_edge, error_num, error_num2, error_num3, time, i, gn, algo_name,cost_type);
                 nl_List.clear();
                 cl_List.clear();
-                /**パスの長さの出力*/
-                double ave = Cal.average_cal2(Path_length);
-                double std = Cal.standard_deviation_cal2(Path_length,ave);
-                out.path_length_writer(ave,std,gn,algo_name,i,j*10,cost_type);
+                    /**パスの長さの出力*/
+                    double ave = Cal.average_cal2(Path_length);
+                    double std = Cal.standard_deviation_cal2(Path_length, ave);
+                    out.path_length_writer(ave, std, gn, algo_name, i, j * 10, cost_type);
                 /**辺使用率の算出*/
-                Map<Integer,Double> ave_list1= Cal.average_cal3(Value.Util_Edge_List);
-                Map<Integer,Double> ave_list2 = Cal.average_cal4(Value.Edge_Total_num);
-                Map<Integer,Double> ave_list3  = Cal.average_cal4(Value.Edge_Used_num);
-                Map<Integer,Double> std_list1 = Cal.standard_deviation_cal3(Value.Util_Edge_List,ave_list1);
-                Map<Integer,Double> std_list2 = Cal.standard_deviation_cal4(Value.Edge_Total_num,ave_list2);
-                Map<Integer,Double> std_list3 = Cal.standard_deviation_cal4(Value.Edge_Used_num,ave_list3);
-                out.edge_info_writer(ave_list2,std_list2,ave_list3,std_list3,gn,algo_name,i,j*10,cost_type);
-                out.edge_utilization_writer(ave_list1,std_list1,gn,algo_name,i,j*10,cost_type);
+                    Map<Integer, Double> ave_list1 = Cal.average_cal3(Value.Util_Edge_List);
+                    Map<Integer, Double> ave_list2 = Cal.average_cal4(Value.Edge_Total_num);
+                    Map<Integer, Double> ave_list3 = Cal.average_cal4(Value.Edge_Used_num);
+                    Map<Integer, Double> std_list1 = Cal.standard_deviation_cal3(Value.Util_Edge_List, ave_list1);
+                    Map<Integer, Double> std_list2 = Cal.standard_deviation_cal4(Value.Edge_Total_num, ave_list2);
+                    Map<Integer, Double> std_list3 = Cal.standard_deviation_cal4(Value.Edge_Used_num, ave_list3);
+                    out.edge_info_writer(ave_list2, std_list2, ave_list3, std_list3, gn, algo_name, i, j * 10, cost_type);
+                    out.edge_utilization_writer(ave_list1, std_list1, gn, algo_name, i, j * 10, cost_type);
+                    std_list1.clear();
+                    ave_list1.clear();
+                    std_list2.clear();
+                    ave_list2.clear();
+                    std_list3.clear();
+                    ave_list3.clear();
+
+                /**頂点詳細情報*/
+                   ave_list1 = Cal.average_cal3(Value.Util_Node_List);
+                    ave_list2 = Cal.average_cal4(Value.Node_Total_num);
+                    ave_list3 = Cal.average_cal4(Value.Node_Used_num);
+                    std_list1 = Cal.standard_deviation_cal3(Value.Util_Node_List, ave_list1);
+                    std_list2 = Cal.standard_deviation_cal4(Value.Node_Total_num, ave_list2);
+                    std_list3 = Cal.standard_deviation_cal4(Value.Node_Used_num, ave_list3);
+                    out.node_info_writer(ave_list2, std_list2, ave_list3, std_list3, gn, algo_name, i, j * 10, cost_type);
+                    out.node_utilization_writer(ave_list1, std_list1, gn, algo_name, i, j * 10, cost_type);
+                    std_list1.clear();
+                    ave_list1.clear();
+                    std_list2.clear();
+                    ave_list2.clear();
+                    std_list3.clear();
+                    ave_list3.clear();
                 Value.Util_Edge_List.clear();
                 Value.Edge_Used_num.clear();
                 Value.Edge_Total_num.clear();
-                std_list1.clear();
-                ave_list1.clear();
-                std_list2.clear();
-                ave_list2.clear();
-                std_list3.clear();
-                ave_list3.clear();
-                /**頂点詳細情報*/
-                ave_list1= Cal.average_cal3(Value.Util_Node_List);
-                ave_list2 = Cal.average_cal4(Value.Node_Total_num);
-                ave_list3  = Cal.average_cal4(Value.Node_Used_num);
-                std_list1 = Cal.standard_deviation_cal3(Value.Util_Node_List,ave_list1);
-                std_list2 = Cal.standard_deviation_cal4(Value.Node_Total_num,ave_list2);
-                std_list3 = Cal.standard_deviation_cal4(Value.Node_Used_num,ave_list3);
-                out.node_info_writer(ave_list2,std_list2,ave_list3,std_list3,gn,algo_name,i,j*10,cost_type);
-                out.node_utilization_writer(ave_list1,std_list1,gn,algo_name,i,j*10,cost_type);
                 Value.Util_Node_List.clear();
                 Value.Node_Used_num.clear();
                 Value.Node_Total_num.clear();
-                std_list1.clear();
-                ave_list1.clear();
-                std_list2.clear();
-                ave_list2.clear();
-                std_list3.clear();
-                ave_list3.clear();
             }
         }
     }

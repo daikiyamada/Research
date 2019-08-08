@@ -14,32 +14,38 @@ public class Calculation extends Value{
     }
     public double average_cal2(ArrayList<Double> list){
         double average =0;
-        for(int i=0;i<list.size();i++) average+=list.get(i);
-        average /=list.size();
+            for(int i=0;i<list.size();i++) average+=list.get(i);
+            average /=list.size();
         return average;
     }
     public Map<Integer,Double> average_cal3(ArrayList<Map<Integer,Double>> data_list){
         Map<Integer,Double> List = new HashMap<>();
-        for(int i:data_list.get(0).keySet()) List.put(i,0.0);
-        for(int i=0;i<data_list.size();i++){
-            Map<Integer,Double> Each = data_list.get(i);
-            for(int j:Each.keySet()){
-                List.replace(j,List.get(j)+Each.get(j));
+        if(data_list.size()!=0) {
+            for(int i:data_list.get(0).keySet()) List.put(i,0.0);
+            for (int i = 0; i < data_list.size(); i++) {
+                Map<Integer, Double> Each = data_list.get(i);
+                for (int j : Each.keySet()) {
+                    List.replace(j, List.get(j) + Each.get(j));
+                }
             }
+            for (int i : List.keySet()) List.replace(i, List.get(i) / data_list.size());
         }
-        for(int i:List.keySet()) List.replace(i,List.get(i)/data_list.size());
+        else for(int i=1;i<6;i++) List.put(i,0.0);
         return List;
     }
     public Map<Integer,Double> average_cal4(ArrayList<Map<Integer,Integer>> data_list){
         Map<Integer,Double> List = new HashMap<>();
-        for(int i:data_list.get(0).keySet()) List.put(i,0.0);
-        for(int i=0;i<data_list.size();i++){
-            Map<Integer,Integer> Each = data_list.get(i);
-            for(int j:Each.keySet()){
-                List.replace(j,List.get(j)+Each.get(j));
+        if(data_list.size()!=0) {
+            for(int i:data_list.get(0).keySet()) List.put(i,0.0);
+            for (int i = 0; i < data_list.size(); i++) {
+                Map<Integer, Integer> Each = data_list.get(i);
+                for (int j : Each.keySet()) {
+                    List.replace(j, List.get(j) + Each.get(j));
+                }
             }
+            for (int i : List.keySet()) List.replace(i, List.get(i) / data_list.size());
         }
-        for(int i:List.keySet()) List.replace(i,List.get(i)/data_list.size());
+        else for(int i=1;i<6;i++) List.put(i,0.0);
         return List;
     }
     public int median_cal(ArrayList<Integer> List){
@@ -69,28 +75,35 @@ public class Calculation extends Value{
     }
     public Map<Integer,Double>  standard_deviation_cal3(ArrayList<Map<Integer,Double>> Data,Map<Integer,Double> average){
         Map<Integer,Double> List = new HashMap<>();
-        for(int i:Data.get(0).keySet()) List.put(i,0.0);
-        for(int i=0;i<Data.size();i++){
-            for(int j:Data.get(i).keySet()){
-                List.replace(j,List.get(j)+Math.pow(List.get(j)-average.get(j),2));
+        if(Data.size()!=0) {
+            for (int i : Data.get(0).keySet()) List.put(i, 0.0);
+            for (int i = 0; i < Data.size(); i++) {
+                for (int j : Data.get(i).keySet()) {
+                    List.replace(j, List.get(j) + Math.pow(Data.get(i).get(j) - average.get(j), 2));
+                }
+            }
+            for (int i : Data.get(0).keySet()) {
+                List.replace(i, Math.sqrt(List.get(i) / Data.size()));
             }
         }
-        for(int i:Data.get(0).keySet()){
-            List.replace(i,Math.sqrt(List.get(i)/Data.size()));
-        }
+        else for(int i=1;i<6;i++) List.put(i,0.0);
         return List;
     }
     public Map<Integer,Double>  standard_deviation_cal4(ArrayList<Map<Integer,Integer>> Data,Map<Integer,Double> average){
         Map<Integer,Double> List = new HashMap<>();
+        if(Data.size()!=0){
         for(int i:Data.get(0).keySet()) List.put(i,0.0);
         for(int i=0;i<Data.size();i++){
             for(int j:Data.get(i).keySet()){
-                List.replace(j,List.get(j)+Math.pow(List.get(j)-average.get(j),2));
+                List.replace(j,List.get(j)+Math.pow(Data.get(i).get(j)-average.get(j),2));
             }
         }
         for(int i:Data.get(0).keySet()){
             List.replace(i,Math.sqrt(List.get(i)/Data.size()));
         }
+        }
+        else for(int i=1;i<6;i++) List.put(i,0.0);
+
         return List;
     }
     public double average_path_length(Map<MySFC, ArrayList<Graph<MyNode, MyEdge>>> Path_set,ArrayList<MySFC> S){
@@ -106,25 +119,4 @@ public class Calculation extends Value{
         average=(double)sum/path_num;
         return average;
     }
-    public double[] average_service_node(Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> Path_set,ArrayList<MySFC> S,int used_node_num){
-        double average=0,sum=0;
-        double list[]= new double[2];
-        int service_num=0;
-        /**サービスノード数カウント*/
-        for(MySFC s:S){
-            ArrayList<Graph<MyNode,MyEdge>> path_set = new ArrayList<>(Path_set.get(s));
-            for(Graph<MyNode,MyEdge> path:path_set){
-                Collection<MyNode> Node_List1 = path.getVertices();
-                ArrayList<MyNode> Node_List2 = new ArrayList<>(Node_List1);
-                for(MyNode n:Node_List2){
-                    if(n.Node_ID.equals("s")==true) service_num++;
-                }
-                sum++;
-            }
-        }
-        list[0] = (double) used_node_num/sum;
-        list[1] = (double) service_num/sum;
-        return list;
-    }
-
 }

@@ -2,17 +2,15 @@ package Input;
 
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.Pair;
-
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Random;
 import Parameter.Parameter;
 public class NWS_Maker extends Value{
     public Graph<MyNode,MyEdge> NWS_GraphMaker(Graph<MyNode,MyEdge> Physical_Network,double p,int cost_type){
         Parameter par = new Parameter();
         int numnode = Physical_Network.getVertexCount();
-        int edge_num =0;
+        int edge_num =1;
         Collection<MyNode> Node_List =Physical_Network.getVertices();
         ArrayList<MyNode> Node = new ArrayList<MyNode>(Node_List);
         Random rnd = new Random();
@@ -22,14 +20,14 @@ public class NWS_Maker extends Value{
             int cost =0;
             if(cost_type==1) cost = rnd.nextInt(par.link_cost_max-par.link_cost_min+1)+par.link_cost_min;
             else if(cost_type==2){
-                cost = (capacity/100)%10;
+                cost = (capacity/100)-5;
                 if(cost==0) cost = 10;
             }
             else if(cost_type==3){
-                int r = (capacity/100)%10;
+                int r = (capacity/100)-5;
                 if(r==0) cost = 1;
                 else{
-                    cost = par.link_cost_max-r;
+                    cost = par.link_cost_max+1-r;
                 }
             }
             MyEdge e = new MyEdge(edge_num);
@@ -46,14 +44,14 @@ public class NWS_Maker extends Value{
             int cost =0;
             if(cost_type==1) cost = rnd.nextInt(par.link_cost_max-par.link_cost_min+1)+par.link_cost_min;
             else if(cost_type==2){
-                cost = (capacity/100)%10;
+                cost = (capacity/100)-5;
                 if(cost==0) cost = 10;
             }
             else if(cost_type==3){
-                int r = (capacity/100)%10;
+                int r = (capacity/100)-5;
                 if(r==0) cost = 1;
                 else{
-                    cost = par.link_cost_max-r;
+                    cost = par.link_cost_max+1-r;
                 }
             }
             MyEdge e = new MyEdge(edge_num);
@@ -78,14 +76,14 @@ public class NWS_Maker extends Value{
             int cost =0;
             if(cost_type==1) cost = rnd.nextInt(par.link_cost_max-par.link_cost_min+1)+par.link_cost_min;
             else if(cost_type==2){
-                cost = (capacity/100)%10;
+                cost = (capacity/100)-5;
                 if(cost==0) cost = 10;
             }
             else if(cost_type==3){
-                int r = (capacity/100)%10;
+                int r = (capacity/100)-5;
                 if(r==0) cost = 1;
                 else{
-                    cost = par.link_cost_max-r;
+                    cost = par.link_cost_max+1-r;
                 }
             }
             MyEdge e = new MyEdge(edge_num);
