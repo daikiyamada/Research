@@ -2,20 +2,22 @@ package Placement;
 
 import Input.MyEdge;
 import Input.MyNode;
+import Input.Value;
 import Path.Algorithm2;
 import SFC.MySFC;
 import SFC.MyVNF;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraDistance;
 import edu.uci.ics.jung.graph.Graph;
 
+import javax.xml.soap.Node;
 import java.util.*;
 public class Deployment_Algorithm2 extends Input.Value{
 
     public void Deploy_algo2(Graph<MyNode,MyEdge> graph,Map<MySFC,ArrayList<Graph<MyNode, MyEdge>>> Path_Set,ArrayList<MySFC> S,int R){
-        cost_node =0;
         /**残容量リストの作成*/
         Map<MyNode,Integer> r_n2 = new HashMap<>();
         for(MyNode n:graph.getVertices()) r_n2.put(find_node(n), Input.Value.r_n.get(n));
+        Set<MyNode> Node_Set = new HashSet<>();
         /**配置の開始*/
         whole :for(MySFC s:S){
             for(int i=0;i<=R;i++){
@@ -25,7 +27,8 @@ public class Deployment_Algorithm2 extends Input.Value{
                     /**候補ノードの作成*/
                     ArrayList<MyNode> U = NodeList_Generator(Node_List,r_n2,f);
                     if(U.size()==0){
-                        cost_node = 0;
+                        System.out.println(Node_List);
+                        Value.cost_node = 0;
                         break whole;
                     }
                     else{
@@ -42,8 +45,9 @@ public class Deployment_Algorithm2 extends Input.Value{
                         }
                         if(min_node!=null) {
                             /**コストの計算・容量変更*/
-                            cost_node += f.cap_VNF * c_n.get(find_node(min_node));
+                            Value.cost_node += f.cap_VNF * c_n.get(find_node(min_node));
                             r_n2.replace(find_node(min_node), r_n2.get(find_node(min_node)) - f.cap_VNF);
+                            Node_Set.add(min_node);
                             /**配置したノードより前の物を削除*/
                             Algorithm2 al2 = new Algorithm2();
                             DijkstraDistance<MyNode,MyEdge> dd = new DijkstraDistance<>(Path_Set.get(s).get(i));
@@ -58,18 +62,26 @@ public class Deployment_Algorithm2 extends Input.Value{
                             }
                         }
                         else{
-                            cost_node=0;
+                            Value.cost_node=0;
                             break whole;
                         }
                     }
+                    U.clear();
                 }
+                Node_List.clear();
             }
+        }
+        if(Value.cost_node!=0){
+            Value val = new Value();
+            val.node_Utilization(graph,Node_Set,r_n2);
         }
     }
     public ArrayList<MyNode> NodeList_Generator(Collection<MyNode> List,Map<MyNode,Integer> r_n2,MyVNF f){
         ArrayList<MyNode> Node_List = new ArrayList<>();
         for(MyNode n:List){
-            if(r_n2.get(find_node(n))-f.cap_VNF>=0) Node_List.add(n);
+            if(r_n2.get(find_node(n))-f.cap_VNF>=0) {
+                Node_List.add(n);
+            }
         }
         return Node_List;
     }

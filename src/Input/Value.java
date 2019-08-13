@@ -1,7 +1,6 @@
 package Input;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.SparseGraph;
-import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.graph.util.Pair;
 import Parameter.*;
@@ -15,7 +14,6 @@ public class Value{
     public static Map<MyEdge,Integer> c_e = new HashMap<>();
     public static int cost_link;
     public static int cost_node;
-
     /**使用率計算のためのリスト*/
     public static ArrayList<Map<Integer,Double>> Util_Edge_List = new ArrayList<>();
     public static ArrayList<Map<Integer,Integer>> Edge_Total_num = new ArrayList<>();
@@ -35,7 +33,6 @@ public class Value{
     public void edge_cost(MyEdge e,int cost){
         Value.c_e.put(e,cost);
     }
-
     public MyEdge find_edge(MyEdge e){
         MyEdge e2 =null;
         for(MyEdge e1:Value.c_e.keySet()) if(e1.Edge_ID==e.Edge_ID) e2 = e1;
@@ -118,7 +115,7 @@ public class Value{
         for(MyNode n: Node_List){
             int cost = c_n.get(find_node(n));
             count_node.replace(cost,count_node.get(cost)+1);
-            double util = 1-(double)r_n2.get(n)/r_n.get(n);
+            double util = 1-(double)r_n2.get(find_node(n))/r_n.get(find_node(n));
             node_util.replace(cost,(double)node_util.get(cost)+util);
         }
         /**使用率の計算*/

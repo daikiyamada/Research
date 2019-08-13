@@ -1,6 +1,5 @@
 package Executer;
 import Input.*;
-import Output.Visualization;
 import SFC.*;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.SparseGraph;
@@ -33,7 +32,7 @@ public class Executer {
                 /**実験数*/
                 for (int k = 0; k < par.exe_num; k++) {
                     /**途中経過の表示*/
-                    if (k % 100 == 0) {
+                    if (k % 10 == 0) {
                         Date date2 = new Date();
                         System.out.println(k + ":" + date2);
                     }
