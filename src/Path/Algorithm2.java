@@ -3,6 +3,7 @@ import java.util.*;
 import Input.MyNode;
 import Input.MyEdge;
 import Output.Visualization;
+import Parameter.Parameter;
 import SFC.MySFC;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraDistance;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
@@ -17,7 +18,7 @@ public class Algorithm2 extends Value{
     public Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> KNode_Disjoint_Path(Graph<MyNode,MyEdge> G,ArrayList<MySFC> S,int R){
         Value val = new Value();
         Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> Path_set = new HashMap<>();
-        /**残容量リスト・修正用コストの作成*/
+        /**残容量リストの作成*/
         Map<MyEdge,Integer> r_e2 = new HashMap<>();
         for(MyEdge e:G.getEdges())  r_e2.put(e,Value.r_e.get(e));
         /**SFC集合をr_sに基づいて降順にソートする*/
@@ -25,47 +26,49 @@ public class Algorithm2 extends Value{
         Set<MyEdge> Edge_Set = new HashSet<>();
         /**KNDSPの探索*/
         whole:for(MySFC s:S){
-            /**修正後の辺コスト*/
+            /**修正後の辺コスト用リスト*/
             ArrayList<Graph<MyNode, MyEdge>> Path = new ArrayList<>();
             Graph<MyNode, MyEdge> G2 = Clone_Graph(G);
             ArrayList<MyEdge> Edge_List = new ArrayList<MyEdge>(G2.getEdges());
             /**辺の容量確認*/
-            for (MyEdge e : Edge_List)
-                if (r_e2.get(val.find_edge(e)) - s.Demand_Link_Resource < 0) G2.removeEdge(e);
+            for (MyEdge e : Edge_List) if (r_e2.get(val.find_edge(e)) - s.Demand_Link_Resource < 0) G2.removeEdge(e);
             /**始点・終点に辺が存在していた場合削除*/
             MyEdge e10 = G2.findEdge(find_original_Node(G2, s.source), find_original_Node(G2, s.sink));
             if (e10 != null) G2.removeEdge(e10);
-            /**最短経路の算出*/
-            MyNode source = find_original_Node(G2, s.source);
-            MyNode sink = find_original_Node(G2, s.sink);
             while(true) {
+                /**最短経路の算出*/
+                MyNode source = find_original_Node(G2, s.source);
+                MyNode sink = find_original_Node(G2, s.sink);
                 MyTransformer list = new MyTransformer();
                 DijkstraShortestPath<MyNode, MyEdge> ds = new DijkstraShortestPath<>(G2, list);
                 List<MyEdge> Edge_List2 = ds.getPath(source, sink);
                 Graph<MyNode, MyEdge> p = Dijkstra_Path(G2, Edge_List2, source);
-                if (p == null && p.getEdgeCount() == 0) {
+                if (p == null) {
                     Value.cost_link = 0;
-                    System.out.println("error");
+                    System.out.println("error1");
                     break whole;
                 }
                 Path.add(p);
                 for (int j = 1; j <= R; j++) {
                     Map<MyEdge, Integer> c_e2 = new HashMap<>();
                     for (MyEdge e : G.getEdges()) c_e2.put(e, Value.c_e.get(e));
-                    Graph<MyNode, MyEdge> G3 = Algorithm2(G2, Path, source, c_e2);
-                    Graph<MyNode, MyEdge> G4 = Algorithm3(G3, Path, source, sink, c_e2);
-                    /**c_e2をG4の辺で作成する*/
+                    Graph<MyNode, MyEdge> G3 = Algorithm2(G2, Path, source, sink, c_e2);
+                    /**c_e2をG3の辺で作成する*/
                     Map<MyEdge, Integer> c_e3 = new HashMap<>();
-                    for (MyEdge e : c_e2.keySet()) c_e3.put(find_Edge(G4, e), c_e2.get(e));
+                    for (MyEdge e : c_e2.keySet()) c_e3.put(find_Edge(G3, e), c_e2.get(e));
                     /**最短距離パスのアルゴリズムの実装*/
-                    Graph<MyNode, MyEdge> p2 = Modified_Dijkstra(G4, source, sink, c_e3);
-                    if (p2 == null) {
+                    Graph<MyNode, MyEdge> p2 = Modified_Dijkstra(G3, source, sink, c_e3);
+                    if (p2 == null && Value.cycle) {
                         Value.cost_link = 0;
                         System.out.println("error");
                         break whole;
+                    } else if (!Value.cycle) {
+                        System.out.println("non error2");
+                        Value.cost_link = 0;
+                        break whole;
                     }
                     /**パスの修正*/
-                    Graph<MyNode, MyEdge> p3 = Restoration_Path(G4, p2, c_e3);
+                    Graph<MyNode, MyEdge> p3 = Restoration_Path(G3, p2, c_e3);
                     Path.add(p3);
                     /**重複辺の削除と結合*/
                     Path = Modified_Path(Path, s.source, s.sink);
@@ -78,10 +81,24 @@ public class Algorithm2 extends Value{
                     for (MyNode n : pp.getVertices()) if (n.Node_ID.equals("s")) num++;
                     if (num == 0) {
                         assess = false;
+                        int max_hop = pp.getEdgeCount()/2;
+                        for(MyEdge e:pp.getEdges()){
+                            Pair<MyNode> list2 = pp.getEndpoints(e);
+                            DijkstraDistance<MyNode,MyEdge> dd = new DijkstraDistance<>(pp);
+                            int hop1 = (int)(double)dd.getDistance(find_original_Node(pp,source),list2.getFirst());
+                            int hop2 = (int)(double)dd.getDistance(find_original_Node(pp,source),list2.getSecond());
+                            int ave_hop;
+                            if(hop1>hop2) ave_hop=hop1;
+                            else ave_hop = hop2;
+                            if(ave_hop==max_hop) {
+                                G2.removeEdge(find_Edge(G2,e));
+                                Path.clear();
+                                break;
+                            }
+                        }
                         break;
                     }
                 }
-
                 if (assess == true) {
                     /**容量を変更する*/
                     for (Graph<MyNode, MyEdge> each : Path) {
@@ -94,11 +111,11 @@ public class Algorithm2 extends Value{
                     }
                     Path_set.put(s, Path);
                     break;
-                } else {
+                } /*else {
                     int max_cost = 0;
                     MyEdge max_edge = null;
                     /**ターミナルノード１個削除*/
-                    for (Graph<MyNode, MyEdge> each : Path) {
+                    /*for (Graph<MyNode, MyEdge> each : Path) {
                         for (MyEdge e : each.getEdges()) {
                             if (Value.c_e.get(find_edge(e)) > max_cost) {
                                 max_cost = Value.c_e.get(find_edge(e));
@@ -108,8 +125,9 @@ public class Algorithm2 extends Value{
                     }
                     G2.removeEdge(find_Edge(G2, max_edge));
                     Path.clear();
-                }
+                }*/
             }
+            Path_set.put(s, Path);
         }
         if(Value.cost_link!=0) val.Edge_Utilization(G,Edge_Set,r_e2);
         return Path_set;
@@ -128,7 +146,7 @@ public class Algorithm2 extends Value{
         }
     }
     /**グラフ修正*/
-    public  Graph<MyNode,MyEdge> Algorithm2(Graph<MyNode,MyEdge> graph,ArrayList<Graph<MyNode,MyEdge>> Path,MyNode s,Map<MyEdge,Integer> c_e2){
+    public  Graph<MyNode,MyEdge> Algorithm2(Graph<MyNode,MyEdge> graph,ArrayList<Graph<MyNode,MyEdge>> Path,MyNode s,MyNode t,Map<MyEdge,Integer> c_e2){
         /**負の辺に置き換え*/
         Graph<MyNode,MyEdge> graph2 = Clone_Graph(graph);
         for(Graph<MyNode,MyEdge> p:Path){
@@ -143,90 +161,117 @@ public class Algorithm2 extends Value{
                 MyEdge e2 = new MyEdge(e.Edge_ID);
                 if(d1<d2) graph2.addEdge(e2,n2,n1, EdgeType.DIRECTED);
                 else graph2.addEdge(e2,n1,n2,EdgeType.DIRECTED);
-                c_e2.replace(find_edge(e),-c_e2.get(find_edge(e)));
+                c_e2.put(find_edge(e),-c_e2.get(find_edge(e)));
             }
         }
-        return graph2;
-    }
-    public Graph<MyNode,MyEdge> Algorithm3(Graph<MyNode,MyEdge> graph,ArrayList<Graph<MyNode,MyEdge>> Path ,MyNode s,MyNode t,Map<MyEdge,Integer> c_e2){
-        /**additional nodeの作成とoriginal nodeとadditonal nodeの辺作成*/
-        Graph<MyNode,MyEdge> graph2 = Clone_Graph(graph);
+        /**additional nodeの追加*/
+        Map<MyNode,MyNode> Additional_List = new HashMap<>();
+        for(Graph<MyNode,MyEdge>p:Path){
+            for(MyNode n:p.getVertices()){
+                MyNode now2 = find_original_Node(graph2, n);
+                if (now2.Node_Num != s.Node_Num && now2.Node_Num != t.Node_Num) {
+                    MyNode n2 = new MyNode(now2.Node_ID, -now2.Node_Num);
+                    graph2.addVertex(n2);
+                    Additional_List.put(now2,n2);
+                }
+            }
+        }
+        /**additional nodeへの置き換え*/
+        for(Graph<MyNode,MyEdge>p:Path){
+            for(MyNode n:p.getVertices()){
+                /**始点・終点以外隣接するノードのaddtionalノードからoriginalノードへ接続*/
+                MyNode now2 = find_original_Node(graph2,n);
+                if(now2.Node_Num!=s.Node_Num&&now2.Node_Num!=t.Node_Num){
+                    for(MyEdge e:graph2.getInEdges(now2)){
+                        MyNode n3 = graph2.getOpposite(now2,e);
+                        graph2.removeEdge(e);
+                        MyEdge e3 = new MyEdge(e.Edge_ID);
+                        graph2.addEdge(e3,n3,Additional_List.get(now2),EdgeType.DIRECTED);
+                    }
+                }
+            }
+        }
+        /**コスト０の辺の作成*/
+        int between = 999999999;
+        for(MyNode n:Additional_List.keySet()){
+            MyEdge e = new MyEdge(between);
+            graph2.addEdge(e,Additional_List.get(n),n,EdgeType.DIRECTED);
+            c_e2.put(e,0);
+            between--;
+        }
         ArrayList<MyNode> Path_Edge_List = new ArrayList<>();
         Map<MyEdge,Pair<MyNode>> Edge_List = new HashMap<>();
+        /**頂点管理用リストの作成*/
         for(Graph<MyNode,MyEdge> p:Path){
             for(MyNode n:p.getVertices()){
                 MyNode n2 = new MyNode(n.Node_ID,n.Node_Num);
                 Path_Edge_List.add(n2);
             }
         }
-        int between_num = 999999999;
         for(Graph<MyNode,MyEdge> p:Path) {
+            ArrayList<MyNode> Node_List = new ArrayList<MyNode>(p.getVertices());
             for (MyNode n : p.getVertices()) {
-                MyNode now = find_original_Node(graph, n);
                 MyNode now2 = find_original_Node(graph2, n);
-                if (now.Node_Num != s.Node_Num && now.Node_Num != t.Node_Num) {
-                    /**additional nodeの追加*/
-                    MyNode n2 = new MyNode(now2.Node_ID, -now2.Node_Num);
-                    graph2.addVertex(n2);
-                    /**addtionalノードへの置き換え*/
-                    for (MyEdge e : graph.getInEdges(now)) {
-                        if (graph.getEdgeType(e) == EdgeType.DIRECTED) {
-                            MyNode n3 = graph.getOpposite(now, e);
-                            graph2.removeEdge(find_Edge(graph2, e));
-                            MyEdge e3 = new MyEdge(e.Edge_ID);
-                            graph2.addEdge(e3, find_original_Node(graph2, n3), n2, EdgeType.DIRECTED);
-                        }
-                    }
-                    /**generating the edge between additonal node and original node*/
-                    MyEdge e2 = new MyEdge(between_num);
-                    graph2.addEdge(e2, n2, now2, EdgeType.DIRECTED);
-                    c_e2.put(e2, 0);
-                    between_num--;
+                if (now2.Node_Num != s.Node_Num && now2.Node_Num != t.Node_Num) {
                     /**In the case of undirected edge*/
                     Collection<MyEdge> edge_list = graph2.getIncidentEdges(now2);
                     for (MyEdge e : edge_list) {
-                        MyNode n4 = graph2.getOpposite(now, e);
+                        MyNode n4 = graph2.getOpposite(now2, e);
                         /**どのパスにも属していない頂点の場合*/
                         if (graph2.getEdgeType(e) == EdgeType.UNDIRECTED && !Find_Node(Path_Edge_List, n4)) {
+                            MyNode n2 = Additional_List.get(now2);
                             MyEdge e3 = new MyEdge(e.Edge_ID);
                             MyEdge e4 = new MyEdge(-e.Edge_ID);
                             c_e2.put(e4, c_e2.get(find_edge(e)));
                             c_e2.put(e3, c_e2.get(find_edge(e)));
                             graph2.addEdge(e3, n2, n4, EdgeType.DIRECTED);
-                            graph2.addEdge(e4, n4, now, EdgeType.DIRECTED);
+                            graph2.addEdge(e4, n4, now2, EdgeType.DIRECTED);
                             c_e2.remove(find_edge(e));
                             graph2.removeEdge(e);
-
-                        } else if (graph2.getEdgeType(e) == EdgeType.UNDIRECTED && Find_Node(Path_Edge_List, n4)){
-                            Edge_List.put(e, graph2.getEndpoints(e));
                         }
+                        else if (graph2.getEdgeType(e) == EdgeType.UNDIRECTED && Find_Node(Path_Edge_List, n4)&&!Node_List.contains(find_original_Node(p,n4)))Edge_List.put(e, graph2.getEndpoints(e));
                     }
                 }
             }
         }
+        /**K>=2の場合、この対処が必要となる*/
         for(MyEdge e:Edge_List.keySet()){
-            /**グラフに存在する辺の削除*/
+            /**辺の作成*/
             Pair<MyNode> list = Edge_List.get(e);
             MyEdge e2 = new MyEdge(e.Edge_ID);
             MyEdge e3 = new MyEdge(-e.Edge_ID);
+            /**各端点のoriginal nodeまたはadditional nodeを探索する*/
             MyNode original1,additional1,original2,additional2;
-            /**originalとadditonalのノードに分ける*/
-            original1 = list.getFirst();
-            additional1 = new MyNode(list.getFirst().Node_ID,-list.getFirst().Node_Num);
-            original2 = list.getSecond();
-            additional2 = new MyNode(list.getSecond().Node_ID,-list.getSecond().Node_Num);
-            /**Connecting the directed edge from the additional node to original node*/
+            ArrayList<MyNode> graph_list = new ArrayList<MyNode>(graph2.getVertices());
+            if(list.getFirst().Node_Num>0){
+                original1 = list.getFirst();
+                additional1 = Exchange_Node(graph_list,original1);
+            }
+            else {
+                additional1 = list.getFirst();
+                original1 = Exchange_Node(graph_list,additional1);
+            }
+            if(list.getSecond().Node_Num>0){
+                original2 = list.getSecond();
+                additional2 = Exchange_Node(graph_list,original1);
+            }
+            else {
+                additional2 = list.getSecond();
+                original2 = Exchange_Node(graph_list,additional1);
+            }
+            /**Connecting the directed edge from the additional2 to original1*/
             graph2.addEdge(e3,additional2,original1,EdgeType.DIRECTED);
             c_e2.put(e3,c_e2.get(find_edge(e)));
-            /**Connecting the directed edge from the original node to additional node*/
+            /**Connecting the directed edge from the original1 to additional1*/
             graph2.addEdge(e2,additional1,original2,EdgeType.DIRECTED);
             c_e2.put(e2,c_e2.get(find_edge(e)));
             c_e2.remove(find_edge(e));
             graph2.removeEdge(e);
         }
-        return graph2;
+        Graph<MyNode,MyEdge> graph3 = Clone_Graph(graph2);
+        return graph3;
     }
-    public Graph<MyNode,MyEdge> Modified_Dijkstra(Graph<MyNode,MyEdge> graph,MyNode s,MyNode t,Map<MyEdge,Integer> c_e2){
+  public Graph<MyNode,MyEdge> Modified_Dijkstra(Graph<MyNode,MyEdge> graph,MyNode s,MyNode t,Map<MyEdge,Integer> c_e2){
         Graph<MyNode,MyEdge> p = new SparseGraph<MyNode,MyEdge>();
         Graph<MyNode,MyEdge> graph2 = Clone_Graph(graph);
         /**ダイクストラの開始*/
@@ -251,6 +296,10 @@ public class Algorithm2 extends Value{
                 else d.put(n, 999999999);
             }
         whole:while(true){
+                if(S.size()>graph2.getVertexCount()){
+                    Value.cycle = false;
+                    return null;
+                }
             /**step2*/
             /**Sから最短距離となるノードを見つける*/
             int dis =999999999;
@@ -352,8 +401,7 @@ public class Algorithm2 extends Value{
                                 MyEdge e2 = new MyEdge(-e.Edge_ID);
                                 mp.addEdge(e2,additional,sink,EdgeType.UNDIRECTED);
                             }
-
-                            else{
+                            else if(source.Node_Num>0&&sink.Node_Num>0){
                                 mp.addVertex(source);
                                 mp.addVertex(sink);
                                 MyEdge e2 = new MyEdge(-e.Edge_ID);
@@ -408,6 +456,10 @@ public class Algorithm2 extends Value{
             DijkstraShortestPath<MyNode,MyEdge> ds = new DijkstraShortestPath<>(G,list);
             List<MyEdge> Edge_List3 = ds.getPath(find_original_Node(G,source),find_original_Node(G,sink));
             Graph<MyNode,MyEdge> p = Dijkstra_Path(G,Edge_List3,source);
+            if(p.getVertexCount()==0) {
+                System.out.println("non3");
+                Value.cycle=false;
+            }
             Path_Set.add(p);
             for(MyNode n:p.getVertices()) if(n.Node_Num!=s.Node_Num&&n.Node_Num!=t.Node_Num) G.removeVertex(find_original_Node(G,n));
         }

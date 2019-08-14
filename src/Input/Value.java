@@ -14,6 +14,7 @@ public class Value{
     public static Map<MyEdge,Integer> c_e = new HashMap<>();
     public static int cost_link;
     public static int cost_node;
+    public static boolean cycle;
     /**使用率計算のためのリスト*/
     public static ArrayList<Map<Integer,Double>> Util_Edge_List = new ArrayList<>();
     public static ArrayList<Map<Integer,Integer>> Edge_Total_num = new ArrayList<>();

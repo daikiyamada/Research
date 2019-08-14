@@ -8,13 +8,13 @@ public class Parameter {
     public int VNF_resource_min = 1;
     public int VNF_resource_max = 10;
     /**SFC関連*/
-    public int SFC_num_min = 10;
-    public int SFC_num_max = 10;
+    public int SFC_num_min = 5;
+    public int SFC_num_max = 5;
     public int SFC_VNFnum = 3;
     public int SFC_resource_min=1;
     public int SFC_resource_max =10;
-    public int failure_num_min= 1;
-    public int failure_num_max = 1;
+    public int failure_num_min= 2;
+    public int failure_num_max = 2;
     /**Physical Network関係*/
     /**ノード関係*/
     public int node_num = 300;
@@ -29,7 +29,7 @@ public class Parameter {
     public int link_cost_min = 1;
     public int link_cost_max = 10;
     /**NWSグラフ*/
-    public int k =2;
+    public int k =3;
     /**実験パラメータ*/
     /**1:NWS,2:Lattice*/
     /*public String [] graph_List = {"nws_0.1_","nws_0.2_","nws_0.3_"};
@@ -46,7 +46,7 @@ public class Parameter {
     public String [] algo_name = {"1-1_"};
     public int [] path_algo_list ={4};
     public int [] place_algo_list = {3};
-    public double[] p_list = {0.5};
+    public double[] p_list = {0.3};
     public int [] cost_type = {1};
     public String[] cost_type2 = {"ランダム_"};
     /**結果の出力関連*/

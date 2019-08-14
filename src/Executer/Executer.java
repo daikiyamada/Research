@@ -31,6 +31,7 @@ public class Executer {
                 long start = System.currentTimeMillis();
                 /**実験数*/
                 for (int k = 0; k < par.exe_num; k++) {
+                    Value.cycle=true;
                     /**途中経過の表示*/
                     if (k % 10 == 0) {
                         Date date2 = new Date();
@@ -75,25 +76,28 @@ public class Executer {
                     Placement.Algorithm_Based_GAP alp1 = new Placement.Algorithm_Based_GAP();
                     Placement.Algorithm_FF_front alp2 = new Placement.Algorithm_FF_front();
                     Placement.Deployment_Algorithm2 alp3 = new Placement.Deployment_Algorithm2();
-                    /**パスが成功時に配置に移動*/
-                    if(Value.cost_link!=0){
-                        /**パスの長さ*/
-                        double ave_path_length = Cal.average_path_length(Path_set,S);
-                        Path_length.add(ave_path_length);
-                        /**配置アルゴリズムの実行*/
-                        if (place_algo_num == 1) alp1.Placement_Algo(graph, S, Path_set, i);
-                        else if (place_algo_num == 2) alp2.Placement_FF_front(graph, S, Path_set, i);
-                        else if(place_algo_num == 3) alp3.Deploy_algo2(graph,Path_set,S,i);
+                    if(Value.cycle) {
+                        /**パスが成功時に配置に移動*/
+                        if (Value.cost_link != 0) {
+                            /**パスの長さ*/
+                            double ave_path_length = Cal.average_path_length(Path_set, S);
+                            Path_length.add(ave_path_length);
+                            /**配置アルゴリズムの実行*/
+                            if (place_algo_num == 1) alp1.Placement_Algo(graph, S, Path_set, i);
+                            else if (place_algo_num == 2) alp2.Placement_FF_front(graph, S, Path_set, i);
+                            else if (place_algo_num == 3) alp3.Deploy_algo2(graph, Path_set, S, i);
+                        }
+                        /**コストの計算*/
+                        if (Value.cost_link == 0 || Value.cost_node == 0) error_num++;
+                        if (Value.cost_link == 0) error_num2++;
+                        if (Value.cost_link != 0 && Value.cost_node == 0) error_num3++;
+                        if (Value.cost_node != 0 && Value.cost_link != 0) {
+                            cl_List.add(Value.cost_link);
+                            nl_List.add(Value.cost_node);
+                            out.write_each_result(Value.cost_node, Value.cost_link, gn, algo_name, i, S.size(), cost_type);
+                        }
                     }
-                    /**コストの計算*/
-                    if (Value.cost_link == 0 || Value.cost_node == 0) error_num++;
-                    if (Value.cost_link == 0) error_num2++;
-                    if (Value.cost_link!=0&&Value.cost_node == 0) error_num3++;
-                    if (Value.cost_node != 0 && Value.cost_link != 0) {
-                        cl_List.add(Value.cost_link);
-                        nl_List.add(Value.cost_node);
-                        out.write_each_result(Value.cost_node,Value.cost_link,gn,algo_name,i,S.size(),cost_type);
-                    }
+                    else par.exe_num++;
                     node2.clear();
                     S.clear();
                     Path_set.clear();
