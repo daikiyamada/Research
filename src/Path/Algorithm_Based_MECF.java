@@ -16,31 +16,32 @@ import edu.uci.ics.jung.graph.util.Pair;
 import org.apache.commons.collections15.Transformer;
 
 public class Algorithm_Based_MECF extends Value{
-    private class OPT extends Placement_Maker {}
-    public Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> Routing_Algo(Graph<MyNode, MyEdge> G,ArrayList<MySFC> S,int fn){
-        /**クラスの宣言*/
-        OPT opt = new OPT();
-        /**各変数の初期化*/
+    public Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> Routing_Algo(Graph<MyNode, MyEdge> G,ArrayList<MySFC> S,int R){
+        /**P: Path set, r_e2: residual resource*/
         Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> P = new HashMap<>();
         Map<MyEdge,Integer> r_e2 = new HashMap<>();
-        Set<MyEdge> Edge_List = new HashSet<>();
-        /**SFC集合をr_sに基づいて降順にソートする*/
+        /**Sorting the SFC set based on r_s in reverse order*/
         Collections.sort(S, new Comparator<MySFC>() {
             @Override
             public int compare(MySFC o1, MySFC o2) {
                 return o1.Demand_Link_Resource>=o2.Demand_Link_Resource ? -1:1;
             }
         });
-        /**残容量リストの作成*/
+        /**Generating the residual resource list*/
         for(MyEdge e:G.getEdges()) r_e2.put(e,Value.r_e.get(e));
-        /**パスの選定*/
+        /**Calculating the Path*/
         whole:for(MySFC s:S){
-            /**グラフのコピー（ディープコピー）*/
-            Graph<MyNode,MyEdge> G2 = opt.Clone_Graph(G);
+            /**Graph Copy(Deep copy) and graph set for path*/
+            Graph<MyNode,MyEdge> G2 = Clone_Graph(G);
             ArrayList<Graph<MyNode,MyEdge>> graph = new ArrayList<>();
-            for(int i =0;i<fn+1;i++){
-                while(true){
-                    /**リソース単価を基にした最小重みパスの計算（ダイクストラ)*/
+            /**removing the link if edge between source node and sink node are exited*/
+            MyNode source = find_original_Node(G2, s.source);
+            MyNode sink = find_original_Node(G2, s.sink);
+            MyEdge e10 = G2.findEdge(source, sink);
+            if (e10 != null) G2.removeEdge(e10);
+            for(int i = 0;i<R+1;i++){
+                part:while(true){
+                    /**calculating the shortest path based on dijkstra*/
                     Transformer<MyEdge,Number> list = new Transformer<MyEdge, Number>() {
                         @Override
                         public Number transform(MyEdge myEdge) {
@@ -48,69 +49,61 @@ public class Algorithm_Based_MECF extends Value{
                         }
                     };
                     Graph<MyNode,MyEdge> p = new UndirectedSparseGraph<>();
-                    DijkstraDistance<MyNode,MyEdge> dd = new DijkstraDistance<>(G2);
-                    MyNode source = find_Graph(G2,s.source);
-                    MyNode sink = find_Graph(G2,s.sink);
-                    /**始点終点間のパスが存在しなかった場合*/
-                    if(dd.getDistance(source,sink)!=null) {
-                        List<MyEdge> p_list = new ArrayList<>();
-                        DijkstraShortestPath<MyNode,MyEdge> ds = new DijkstraShortestPath<>(G2,list);
-                        p_list = ds.getPath(source, sink);
+                    DijkstraShortestPath<MyNode,MyEdge> ds = new DijkstraShortestPath<>(G2,list);
+                    /**in the case of no path between source and sink*/
+                    if(ds.getDistance(source,sink)!=null) {
+                        List<MyEdge> p_list  = ds.getPath(source, sink);
                         p = Dijkstra_Path(G2, p_list);
                     }
-                    else p=null;
-                    /**パスがない場合の対処法*/
-                    if(p==null) {
+                    else {
                         Value.cost_link=0;
+                        P.clear();
                         break whole;
                     }
-                    /**r:=minを出す*/
+                    /**r:=min*/
                     int r = s.Demand_Link_Resource;
                     ArrayList<MyEdge> min_edge_list = new ArrayList<>();
                     for(MyEdge e:p.getEdges()){
-                        MyEdge e2 = find_edge2(G,e);
+                        MyEdge e2 = find_Edge(G,e);
                         int cap_edge = r_e2.get(e2);
                         if(cap_edge<s.Demand_Link_Resource){
                             r = cap_edge;
                             min_edge_list.add(e2);
                         }
                     }
-                    /**リンクのキャパシティが十分にある場合*/
+                    /**if the link has enough resource*/
                     if(r==s.Demand_Link_Resource){
-                        /**パスpの各辺に対して残容量をを変更する*/
+                        /**modifying the residual resource of each link on the path*/
                         for(MyEdge e:p.getEdges()){
-                            MyEdge e2 = find_edge2(G,e);
+                            MyEdge e2 = find_Edge(G,e);
                             r_e2.replace(e2,r_e2.get(e2) - s.Demand_Link_Resource);
-                            Edge_List.add(e2);
                         }
-                        /**G'からパスに所属する頂点とそれらに接続する辺を取り除く*/
-                        Remover_Graph(G2,p,s);
+                        /**Removing the nodes and the edges on the path*/
+                        G2=Remover_Graph(G2,p,s);
                         graph.add(p);
-                        /**c_linkの算出*/
+                        /**Calculating c_link*/
                         for(MyEdge e:p.getEdges()){
-                            MyEdge e2 = find_edge2(G,e);
+                            MyEdge e2 = find_Edge(G,e);
                             Value.cost_link+=s.Demand_Link_Resource*Value.c_e.get(e2);
                         }
-                        break;
+                        break part;
                     }
                     else if(r<s.Demand_Link_Resource){
-                        /**キャパシティが十分にない場合、その辺を削除する*/
-                        Remover_Edge(G2,min_edge_list);
+                        /**if the link has not enough resource, removing it*/
+                        G2=Remover_Edge(G2,min_edge_list);
                     }
-                    else break whole;
+                    else{
+                        Value.cost_link=0;
+                        P.clear();
+                        break whole;
+                    }
                 }
             }
             P.put(s,graph);
         }
-        if(P.size()!=S.size()) Value.cost_link=0;
-        if(Value.cost_link!=0){
-            Value val = new Value();
-            val.Edge_Utilization(G,Edge_List,r_e2);
-        }
-
         return P;
     }
-    private Graph<MyNode,MyEdge> Dijkstra_Path(Graph<MyNode,MyEdge> G,List<MyEdge> p_list){
+    public Graph<MyNode,MyEdge> Dijkstra_Path(Graph<MyNode,MyEdge> G,List<MyEdge> p_list){
         Graph<MyNode,MyEdge> p = new UndirectedSparseGraph<>();
         /**リンクからパスを選択する*/
         for(MyEdge e:p_list){
@@ -124,25 +117,16 @@ public class Algorithm_Based_MECF extends Value{
         }
         return p;
     }
-    private void Remover_Graph(Graph<MyNode,MyEdge> G,Graph<MyNode,MyEdge> p,MySFC s){
+    public Graph<MyNode,MyEdge> Remover_Graph(Graph<MyNode,MyEdge> G,Graph<MyNode,MyEdge> p,MySFC s){
         for(MyNode n:p.getVertices()){
-            MyNode n2 = find_Graph(G,n);
+            MyNode n2 = find_original_Node(G,n);
             if(s.source.Node_Num!=n2.Node_Num && s.sink.Node_Num!=n2.Node_Num) G.removeVertex(n2);
         }
+        return G;
     }
-    private void Remover_Edge(Graph<MyNode,MyEdge> G,ArrayList<MyEdge> min_edge_list){
-        for(MyEdge e:min_edge_list) G.removeEdge(e);
+    public Graph<MyNode,MyEdge> Remover_Edge(Graph<MyNode,MyEdge> G,ArrayList<MyEdge> min_edge_list){
+        for(MyEdge e:min_edge_list) G.removeEdge(find_Edge(G,e));
+        return G;
     }
-    public MyNode find_Graph(Graph<MyNode,MyEdge> G,MyNode n){
-        MyNode n2 = null;
-        for(MyNode n3:G.getVertices()){
-            if(n.Node_Num==n3.Node_Num) n2= n3;
-        }
-        return n2;
-    }
-    private MyEdge find_edge2(Graph<MyNode,MyEdge> G,MyEdge e){
-        MyEdge e2 =null;
-        for(MyEdge e1:G.getEdges()) if(e1.Edge_ID==e.Edge_ID) e2 = e1;
-        return e2;
-    }
+
 }

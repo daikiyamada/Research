@@ -49,6 +49,34 @@ public class Value{
         for(MyNode now:p) if(now.Node_Num==n.Node_Num) n2 = now;
         return n2;
     }
+    public MyNode find_original_Node(Graph<MyNode,MyEdge> G,MyNode n){
+        MyNode n2 = null;
+        for(MyNode n3:G.getVertices()){
+            if(n.Node_Num==n3.Node_Num) return n3;
+        }
+        return n2;
+    }
+    public MyEdge find_Edge(Graph<MyNode,MyEdge> G,MyEdge e){
+        MyEdge e2 = null;
+        for(MyEdge e3:G.getEdges()){
+            if(e.Edge_ID==e3.Edge_ID) e2= e3;
+        }
+        return e2;
+    }
+    public Graph<MyNode,MyEdge> Dijkstra_Path(Graph<MyNode,MyEdge> G,List<MyEdge> p_list,MyNode s){
+        Graph<MyNode,MyEdge> p = new SparseGraph<>();
+        /**リンクからパスを選択する*/
+        for(MyEdge e:p_list){
+            Pair<MyNode> node = G.getEndpoints(e);
+            for(MyNode n:node){
+                if(!p.containsVertex(n)){
+                    p.addVertex(n);
+                }
+            }
+            p.addEdge(e,node.getFirst(),node.getSecond(),EdgeType.UNDIRECTED);
+        }
+        return p;
+    }
     public Graph<MyNode,MyEdge> Clone_Graph(Graph<MyNode,MyEdge> path){
         /**Pathのディープコピー*/
         Collection<MyEdge> Edge_List1 = path.getEdges();

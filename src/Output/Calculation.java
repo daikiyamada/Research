@@ -48,6 +48,13 @@ public class Calculation extends Value{
         else for(int i=1;i<6;i++) List.put(i,0.0);
         return List;
     }
+    public Long average_cal5(ArrayList<Long> list){
+        long average =0;
+        for(int i=0;i<list.size();i++) average+=list.get(i);
+        if(list.size()!=0)average /=list.size();
+        else average=0;
+        return average;
+    }
     public int median_cal(ArrayList<Integer> List){
         if(List.size()!=0){
             int median = 0;

@@ -2,43 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8b2aa9da-c07d-4ff5-8636-a74d15b9cdd3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/jung2_2_0_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Placement/Algorithm_FF_back.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Placement/Algorithm_FF_front.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Research.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Research.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Input/Lattice_GraphMaker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Input/Lattice_GraphMaker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Input/MyNode_Maker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Input/MyNode_Maker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Input/NWS_Maker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Input/NWS_Maker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$Connected_ER.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$Connected_ER.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$LatticeGraph.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$LatticeGraph.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$NWSGraph.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$NWSGraph.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$Par.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$Par.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$Path_All.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$Path_All.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$Place1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$Place1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$SFC.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$SFC.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$VNF.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$VNF.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$algo1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$algo1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$algop1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$algop1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$node.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$output.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$output.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Main$vis.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main$vis.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Output/Result.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Output/Result.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Parameter/Parameter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Parameter/Parameter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Placement/Algorithm_Based_GAP$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Placement/Algorithm_Based_GAP$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/Placement/Algorithm_Based_GAP.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/Placement/Algorithm_Based_GAP.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/SFC/SFC_Maker$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/SFC/SFC_Maker$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Research/SFC/SFC_Maker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Research/SFC/SFC_Maker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Output/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Output/Result.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Parameter/Parameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Parameter/Parameter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Path/Algorithm_Based_MECF.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Path/Algorithm_Based_MECF.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Path/Algorithm_Based_MECF_sort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Path/Algorithm_Based_MECF_sort.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Path/Algorithm_Based_MECF_usual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Path/Algorithm_Based_MECF_usual.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Path/Greedy_Path_Algorithm.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Placement/Algorithm_Based_GAP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Placement/Algorithm_Based_GAP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Placement/Algorithm_Based_GAP_back.java" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -54,17 +18,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1350">
-              <caret line="103" column="59" selection-start-line="103" selection-start-column="59" selection-end-line="103" selection-end-column="59" />
+            <state relative-caret-position="360">
+              <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Parameter/Parameter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Parameter/Parameter.java">
+        <entry file="file://$PROJECT_DIR$/src/Path/Algorithm2.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
+            <state relative-caret-position="15">
+              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -108,7 +81,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -143,7 +115,7 @@
               <item name="Research" type="b2602c69:ProjectViewProjectNode" />
               <item name="Research" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Placement" type="462c0819:PsiDirectoryNode" />
+              <item name="Path" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Research" type="b2602c69:ProjectViewProjectNode" />
@@ -155,6 +127,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -227,7 +200,7 @@
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31831187" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.32689556" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -362,13 +335,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Placement/Algorithm_FF_back.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-9">
-          <caret line="20" column="82" lean-forward="true" selection-start-line="20" selection-start-column="82" selection-end-line="20" selection-end-column="82" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Placement/Algorithm_FF_back.java" />
     <entry file="file://$PROJECT_DIR$/src/Placement/Algorithm_FF_front.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="483">
@@ -443,8 +410,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1350">
-          <caret line="103" column="59" selection-start-line="103" selection-start-column="59" selection-end-line="103" selection-end-column="59" />
+        <state relative-caret-position="360">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -452,6 +419,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Path/Algorithm2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="23" />
         </state>
       </provider>
     </entry>

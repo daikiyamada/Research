@@ -11,16 +11,7 @@ public class Algorithm_FF_front extends Value{
         public void Placement_FF_front(Graph<MyNode, MyEdge> G, ArrayList<MySFC> S, Map<MySFC,ArrayList<Graph<MyNode,MyEdge>>> P, int Q){
             Value.cost_node = 0;
             Map<MyNode,Integer> r_n2 = new HashMap<>();
-            Value value = new Value();
-            /**SFC集合をr_sに基づいて降順にソートする*/
-            Collections.sort(S, new Comparator<MySFC>() {
-                @Override
-                public int compare(MySFC o1, MySFC o2) {
-                    return o1.Demand_Link_Resource>o2.Demand_Link_Resource ? -1:1;
-                }
-            });
-            Set<MyNode> Node_List = new HashSet<>();
-            /**残容量リストの作成*/
+            /**残容量リストの作成(グラフGのインスタンスを用いている）)*/
             for(MyNode n:G.getVertices()) r_n2.put(find_node(n),Value.r_n.get(n));
             /**配置開始*/
             whole:for(MySFC s:S){
@@ -28,28 +19,21 @@ public class Algorithm_FF_front extends Value{
                     /**配置候補となるノードの算出（パス上のノードを算出）*/
                     Graph<MyNode,MyEdge> p = P.get(s).get(i);
                     ArrayList<MyNode> V = new ArrayList<>(p.getVertices());
-                    ArrayList<MyVNF> U = s.VNF;
                     /**始点から順番にノードをを選択し、配置する*/
-                    MyNode source = find_node2(V,s.source);
-                    Collection<MyNode> sn2 = p.getNeighbors(source);
-                    ArrayList<MyNode> sn = new ArrayList<MyNode>(sn2);
-                    V.remove(find_node2(V,s.source));
-                    MyNode node = sn.get(0);
-                    Map<MyVNF,MyNode> List = new HashMap<>();
-                    for(MyVNF f:U){
+                    MyNode node = find_node2(V,s.source);
+                    for(MyVNF f:s.VNF){
                         while(true){
-                            V.remove(node);
-                            if(node.Node_Num==s.sink.Node_Num){
+                            if(V.size()==0){
                                 Value.cost_node=0;
                                 break whole;
                             }
+                            V.remove(node);
+                            MyNode now = find_node(node);
                             /**ノード容量の確認*/
                             /**容量があれば配置、なければ隣のノードに移動*/
-                            if(r_n2.get(node)-f.cap_VNF>=0){
-                                Value.cost_node+=f.cap_VNF*c_n.get(node);
-                                r_n2.replace(find_node(node),r_n2.get(find_node(node))-f.cap_VNF);
-                                List.put(f,node);
-                                Node_List.add(node);
+                            if(r_n2.get(now)-f.cap_VNF>=0){
+                                Value.cost_node+=f.cap_VNF*c_n.get(now);
+                                r_n2.replace(now,r_n2.get(now)-f.cap_VNF);
                                 break;
                             }
                             else{
@@ -62,8 +46,6 @@ public class Algorithm_FF_front extends Value{
                     }
                 }
             }
-            if(value.cost_node!=0) value.node_Utilization(G,Node_List,r_n2);
-
         }
 }
 

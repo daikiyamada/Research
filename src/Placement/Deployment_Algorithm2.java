@@ -17,7 +17,6 @@ public class Deployment_Algorithm2 extends Input.Value{
         /**残容量リストの作成*/
         Map<MyNode,Integer> r_n2 = new HashMap<>();
         for(MyNode n:graph.getVertices()) r_n2.put(find_node(n), Input.Value.r_n.get(n));
-        Set<MyNode> Node_Set = new HashSet<>();
         /**配置の開始*/
         whole :for(MySFC s:S){
             for(int i=0;i<=R;i++){
@@ -27,7 +26,6 @@ public class Deployment_Algorithm2 extends Input.Value{
                     /**候補ノードの作成*/
                     ArrayList<MyNode> U = NodeList_Generator(Node_List,r_n2,f);
                     if(U.size()==0){
-                        System.out.println(Node_List);
                         Value.cost_node = 0;
                         break whole;
                     }
@@ -45,9 +43,9 @@ public class Deployment_Algorithm2 extends Input.Value{
                         }
                         if(min_node!=null) {
                             /**コストの計算・容量変更*/
-                            Value.cost_node += f.cap_VNF * c_n.get(find_node(min_node));
-                            r_n2.replace(find_node(min_node), r_n2.get(find_node(min_node)) - f.cap_VNF);
-                            Node_Set.add(min_node);
+                            MyNode min_now = find_node(min_node);
+                            Value.cost_node += f.cap_VNF * c_n.get(min_now);
+                            r_n2.replace(min_now, r_n2.get(min_now) - f.cap_VNF);
                             /**配置したノードより前の物を削除*/
                             Algorithm2 al2 = new Algorithm2();
                             DijkstraDistance<MyNode,MyEdge> dd = new DijkstraDistance<>(Path_Set.get(s).get(i));
@@ -70,10 +68,6 @@ public class Deployment_Algorithm2 extends Input.Value{
                 }
                 Node_List.clear();
             }
-        }
-        if(Value.cost_node!=0){
-            Value val = new Value();
-            val.node_Utilization(graph,Node_Set,r_n2);
         }
     }
     public ArrayList<MyNode> NodeList_Generator(Collection<MyNode> List,Map<MyNode,Integer> r_n2,MyVNF f){
@@ -103,11 +97,11 @@ public class Deployment_Algorithm2 extends Input.Value{
             DijkstraDistance<MyNode,MyEdge> dd = new DijkstraDistance<>(p);
             double num2 = (double)dd.getDistance(source,n2);
             int num = (int) num2;
-            double hop = Math.pow((double)num/max_length,3);
+            double hop = (double)num/max_length;
             /**コストの計算*/
-            double cost = Math.pow((double)c_n.get(find_node(n))/max_cost,2);
+            double cost = (double)c_n.get(find_node(n))/max_cost;
             /**容量計算*/
-            double cap = Math.pow((double) r_n2.get(find_node(n))/r_n.get(find_node(n)),2);
+            double cap = (double) r_n2.get(find_node(n))/r_n.get(find_node(n));
             /**評価値の算出*/
             double price = hop*cap*cost;
             List.put(n,price);
