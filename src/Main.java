@@ -15,8 +15,15 @@ public class Main {
             for(int j=0;j<par.path_algo_list.length;j++){
                     /**コストの与え方（詳細はParameterに記載している）*/
                     for(int l=0;l<par.cost_type.length;l++){
-                        /**実行関数*/
-                        exe.Executer(par.graph_List[i],par.algo_name[j],par.graph_list[i],par.path_algo_list[j],par.place_algo_list[j],par.p_list[i],par.cost_type[l]);
+                        /**value function*/
+                        for(int x=0;x<par.x_dis.length;x++) {
+                            for (int y = 0; y < par.y_cos.length; y++) {
+                                for (int z = 0; z < par.z_cap.length; z++) {
+                                    /**実行関数*/
+                                    exe.Executer(par.graph_List[i], par.algo_name[j], par.graph_list[i], par.path_algo_list[j], par.place_algo_list[j], par.p_list[i], par.cost_type[l],par.x_dis[x],par.y_cos[y],par.z_cap[z]);
+                                }
+                            }
+                        }
                     }
             }
         }

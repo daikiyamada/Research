@@ -13,26 +13,26 @@ import javax.xml.soap.Node;
 import java.util.*;
 public class Deployment_Algorithm2 extends Input.Value{
 
-    public void Deploy_algo2(Graph<MyNode,MyEdge> graph,Map<MySFC,ArrayList<Graph<MyNode, MyEdge>>> Path_Set,ArrayList<MySFC> S,int R){
-        /**残容量リストの作成*/
+    public void Deploy_algo2(Graph<MyNode,MyEdge> graph,Map<MySFC,ArrayList<Graph<MyNode, MyEdge>>> Path_Set,ArrayList<MySFC> S,int R,int x,int y,int z){
+        /**Residual Resource List*/
         Map<MyNode,Integer> r_n2 = new HashMap<>();
         for(MyNode n:graph.getVertices()) r_n2.put(find_node(n), Input.Value.r_n.get(n));
-        /**配置の開始*/
+        /**Start Deployment*/
         whole :for(MySFC s:S){
             for(int i=0;i<=R;i++){
                 ArrayList<MyNode> Node_List = new ArrayList<MyNode>(Path_Set.get(s).get(i).getVertices());
                 s.VNF.sort(new MyComparator());
                 for(MyVNF f:s.VNF){
-                    /**候補ノードの作成*/
+                    /**Pickup Candidate node*/
                     ArrayList<MyNode> U = NodeList_Generator(Node_List,r_n2,f);
                     if(U.size()==0){
                         Value.cost_node = 0;
                         break whole;
                     }
                     else{
-                        /**評価関数の計算*/
-                        Map<MyNode,Double> EL = Evaluation_Calculator(Path_Set.get(s).get(i),U,r_n2,s);
-                        /**最小評価値のノードをピックアップ*/
+                        /**Calculating the Value*/
+                        Map<MyNode,Double> EL = Evaluation_Calculator(Path_Set.get(s).get(i),U,r_n2,s,x,y,z);
+                        /**Selecting the min value node*/
                         double min = 2;
                         MyNode min_node = null;
                         for(MyNode n:U){
@@ -42,21 +42,21 @@ public class Deployment_Algorithm2 extends Input.Value{
                             }
                         }
                         if(min_node!=null) {
-                            /**コストの計算・容量変更*/
+                            /**Rewritng the residual resource and cost*/
                             MyNode min_now = find_node(min_node);
                             Value.cost_node += f.cap_VNF * c_n.get(min_now);
                             r_n2.replace(min_now, r_n2.get(min_now) - f.cap_VNF);
-                            /**配置したノードより前の物を削除*/
-                            Algorithm2 al2 = new Algorithm2();
+                            /**removing the nodes*/
                             DijkstraDistance<MyNode,MyEdge> dd = new DijkstraDistance<>(Path_Set.get(s).get(i));
-                            MyNode source = al2.find_original_Node(Path_Set.get(s).get(i),s.source);
-                            MyNode sink = al2.find_original_Node(Path_Set.get(s).get(i),min_node);
+                            MyNode source = find_original_Node(Path_Set.get(s).get(i),s.source);
+                            MyNode sink = find_original_Node(Path_Set.get(s).get(i),min_node);
                             double hop_minnode2 = (double) dd.getDistance(source,sink);
                             int hop_minnode = (int)hop_minnode2;
                             for(int j=0;j<Node_List.size();j++){
-                                double hop_num2 = (double)dd.getDistance(source,al2.find_original_Node(Path_Set.get(s).get(i),Node_List.get(j)));
+                                MyNode now = find_original_Node(Path_Set.get(s).get(i),Node_List.get(j));
+                                double hop_num2 = (double)dd.getDistance(source,now);
                                 int hop_num = (int)hop_num2;
-                                if(hop_minnode>hop_num) Node_List.get(j);
+                                if(hop_minnode>hop_num) U.remove(now);
                             }
                         }
                         else{
@@ -79,10 +79,10 @@ public class Deployment_Algorithm2 extends Input.Value{
         }
         return Node_List;
     }
-    public Map<MyNode,Double> Evaluation_Calculator(Graph<MyNode,MyEdge> p,ArrayList<MyNode> Node_List,Map<MyNode,Integer> r_n2,MySFC s){
+    public Map<MyNode,Double> Evaluation_Calculator(Graph<MyNode,MyEdge> p,ArrayList<MyNode> Node_List,Map<MyNode,Integer> r_n2,MySFC s,int x,int y,int z){
         Map<MyNode,Double> List = new HashMap<>();
-        /**各最大値計算*/
-        int max_length = p.getEdgeCount()-1;
+        /**Calculating the each max value*/
+        int max_length = p.getVertexCount();
         int max_cost =0;
         Path.Algorithm2 al2 = new Path.Algorithm2();
         MyNode source =al2.find_original_Node(p,s.source);
@@ -90,19 +90,21 @@ public class Deployment_Algorithm2 extends Input.Value{
             int cost = c_n.get(find_node(n));
             if(max_cost<cost) max_cost = cost;
         }
-        /**評価関数値の計算*/
+        /**Calculating the value*/
         for(MyNode n:Node_List){
             MyNode n2 = al2.find_original_Node(p,n);
-            /**ホップ数の計算*/
+            /**Hop*/
             DijkstraDistance<MyNode,MyEdge> dd = new DijkstraDistance<>(p);
-            double num2 = (double)dd.getDistance(source,n2);
+            double num2;
+            if(n2.Node_Num==source.Node_Num) num2 = 1.0;
+            else num2 = (double)dd.getDistance(source,n2)+1.0;
             int num = (int) num2;
             double hop = (double)num/max_length;
-            /**コストの計算*/
+            /**Cost*/
             double cost = (double)c_n.get(find_node(n))/max_cost;
-            /**容量計算*/
+            /**Resource*/
             double cap = (double) r_n2.get(find_node(n))/r_n.get(find_node(n));
-            /**評価値の算出*/
+            /**Value*/
             double price = hop*cap*cost;
             List.put(n,price);
         }

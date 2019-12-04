@@ -26,7 +26,7 @@ public class MyNode_Maker  extends Value{
                 /**uncomparable*/
                 cost = 11-resource/100;
             }
-            /**Generating Node*/
+            /**Generating Node */
             MyNode s = new MyNode("v",a);
             node_resource(s,resource);
             node_cost(s,cost);
