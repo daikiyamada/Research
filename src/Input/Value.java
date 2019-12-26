@@ -67,7 +67,7 @@ public class Value{
         Graph<MyNode,MyEdge> p = new SparseGraph<>();
         /**リンクからパスを選択する*/
         for(MyEdge e:p_list){
-            Pair<MyNode> node = G.getEndpoints(e);
+            Pair<MyNode> node = G.getEndpoints(find_Edge(G,e));
             for(MyNode n:node){
                 if(!p.containsVertex(n)){
                     p.addVertex(n);

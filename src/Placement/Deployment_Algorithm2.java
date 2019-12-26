@@ -99,11 +99,11 @@ public class Deployment_Algorithm2 extends Input.Value{
             if(n2.Node_Num==source.Node_Num) num2 = 1.0;
             else num2 = (double)dd.getDistance(source,n2)+1.0;
             int num = (int) num2;
-            double hop = (double)num/max_length;
+            double hop = Math.pow((double)num/max_length,x);
             /**Cost*/
-            double cost = (double)c_n.get(find_node(n))/max_cost;
+            double cost = Math.pow((double)c_n.get(find_node(n))/max_cost,y);
             /**Resource*/
-            double cap = (double) r_n2.get(find_node(n))/r_n.get(find_node(n));
+            double cap = Math.pow((double) r_n2.get(find_node(n))/r_n.get(find_node(n)),z);
             /**Value*/
             double price = hop*cap*cost;
             List.put(n,price);

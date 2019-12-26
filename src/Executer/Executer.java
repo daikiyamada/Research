@@ -42,7 +42,7 @@ public class Executer {
                     long start = System.currentTimeMillis();
                     Value.cycle=true;
                     /**Output process*/
-                    if (exe_num % 100 == 0) {
+                    if (exe_num % 10 == 0) {
                         Date date2 = new Date();
                         System.out.println(exe_num + ":" + date2);
                         System.out.println("error_num:"+error_sum);
@@ -96,21 +96,28 @@ public class Executer {
                     Path.Algorithm_KVDSP al2 = new Path.Algorithm_KVDSP();
                     Path.Algorithm_Based_MECF_usual al3 = new Path.Algorithm_Based_MECF_usual();
                     Path.Algorithm2 al4 = new Path.Algorithm2();
+                    Algorithm.SinglePath sp = new Algorithm.SinglePath();
                     Map<MySFC, ArrayList<Graph<MyNode, MyEdge>>> Path_set = new HashMap<>();
                     /**path_algo_num==1:tencon 2019 algorithm
                      * path_algo_num==2:KVDSP
                      * path_algo_num==3:MECF
-                     * path_algor_num==4:CIC algorithm*/
+                     * path_algor_num==4:CIC algorithm
+                     * path_algo_num==5: Single path*/
+                    boolean check = true;
                     if (path_algo_num == 1) Path_set = al1.Routing_Algo(graph, SFC_Set, failure_num);
                     else if (path_algo_num==2) Path_set = al2.KNode_Disjoint_Path(graph, SFC_Set,failure_num);
                     else if (path_algo_num==3) Path_set = al3.Routing_Algo(graph, SFC_Set,failure_num);
                     else if(path_algo_num==4) Path_set = al4.KNode_Disjoint_Path(graph,SFC_Set,failure_num);
+                    else if(path_algo_num==5) {
+                        sp.Generator(graph,SFC_Set,failure_num,x,y,z);
+                        check = false;
+                    }
                     /**Deployment Algorithm*/
                     Placement.Algorithm_Based_GAP alp1 = new Placement.Algorithm_Based_GAP();
                     Placement.Algorithm_FF_front alp2 = new Placement.Algorithm_FF_front();
                     Placement.Deployment_Algorithm2 alp3 = new Placement.Deployment_Algorithm2();
                     /**If the routing is successful, moving to deployment*/
-                    if (Value.cost_link != 0) {
+                    if (Value.cost_link != 0&&check) {
                         /**Deployment Algorithm
                          * 1:GAP
                          * 2:FF
